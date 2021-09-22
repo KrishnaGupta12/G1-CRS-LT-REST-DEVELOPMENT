@@ -52,7 +52,7 @@ public class UserRestAPI {
 	@Autowired
 	ProfessorImplService professorImplService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.POST)
 
 	public ResponseEntity verifyCredentials(@PathVariable String username, @PathVariable String password)
 			throws ValidationException, SQLException, UserNotFoundException, IOException, ProfessorNotFoundException {
@@ -68,14 +68,14 @@ public class UserRestAPI {
 				case 1:
 					Student stud = studentImplService.getStudent(username);
 					// return ResponseEntity.status(HttpStatus.ACCEPTED).build()
-					return new ResponseEntity<>("Student Login Succesful", HttpStatus.ACCEPTED);
+					return new ResponseEntity<>("Student Login Succesful", HttpStatus.OK);
 
 				case 2:
 					Professor pr = professorImplService.getProfessorId(username);
-					return new ResponseEntity<>("Professor Login Succesful", HttpStatus.ACCEPTED);
+					return new ResponseEntity<>("Professor Login Succesful", HttpStatus.OK);
 
 				case 3:
-					return new ResponseEntity<>("Admin Login Succesful", HttpStatus.ACCEPTED);
+					return new ResponseEntity<>("Admin Login Succesful", HttpStatus.OK);
 				}
 
 			} else

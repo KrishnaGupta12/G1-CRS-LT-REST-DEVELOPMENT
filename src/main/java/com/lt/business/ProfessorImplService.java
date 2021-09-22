@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 @Component
-public class ProfessorImplService extends User implements ProfessorInterface {
+public class ProfessorImplService implements ProfessorInterface {
 	 private static Logger logger = Logger.getLogger(ProfessorImplService.class);
 	 
 @Autowired	 

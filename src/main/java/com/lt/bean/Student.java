@@ -6,17 +6,17 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 @Entity
-public class Student extends User {
+public class Student  {
+	@Id
     private long studentId;
     private String studentName;
-    @Id
     private String studentEmail;
     private char gender;
     private Date studentDOB;
     private long contact_no;
     private long semester_id;
     private String passWord;
-    private List<Courses> listCourses;
+   // private List<Courses> listCourses;
 
     public Student() {
     }
