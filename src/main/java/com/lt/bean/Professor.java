@@ -1,7 +1,12 @@
 package com.lt.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Professor {
 
+	@Id
     private long professorId;
     private String professorName;
     private String professorEmail;

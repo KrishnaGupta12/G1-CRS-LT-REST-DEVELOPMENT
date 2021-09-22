@@ -2,6 +2,7 @@ package com.lt.business;
 
 import com.lt.bean.*;
 import com.lt.dao.ProfessorDaoImpl;
+import com.lt.dao.ProfessorDaoInterface;
 import com.lt.dao.StudentDaoImpl;
 import com.lt.exception.CourseNotAssignedToProfessorException;
 import com.lt.exception.CourseNotFoundException;
@@ -14,17 +15,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProfessorImplService extends User implements ProfessorInterface {
 	 private static Logger logger = Logger.getLogger(ProfessorImplService.class);
-ProfessorDaoImpl pdo = ProfessorDaoImpl.getInstance();
+//ProfessorDaoImpl pdo = ProfessorDaoImpl.getInstance();
+	 
+	 @Autowired
+		ProfessorDaoInterface pdo;
+	 
 	@Override
-    public void viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException  {
-    	
-        ProfessorDaoImpl pdo = new ProfessorDaoImpl();
-        try
+    public List<Courses> viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException, SQLException {
+		List<Courses> courseList = null;
+		try
         {
-            List<Courses> courseList = pdo.getCourseList(professorId);
+            courseList = pdo.getCourseList(professorId);
 
         
         //System.out.println(courseList);
@@ -42,6 +49,7 @@ ProfessorDaoImpl pdo = ProfessorDaoImpl.getInstance();
         {
         	logger.error(e.getMessage());
         }
+		return courseList;
     }
 
     @Override
@@ -59,8 +67,19 @@ ProfessorDaoImpl pdo = ProfessorDaoImpl.getInstance();
 
     @Override
     public List<Student> viewRegisteredStudents(long professorId) throws SQLException, StudentNotFoundException {
-        ProfessorDaoImpl pdo = new ProfessorDaoImpl();
-        List<Student> studentList = pdo.getStudentList(professorId);
+    	List<Student> studentList  = null;
+    	try
+        {
+         studentList = pdo.getStudentList(professorId);
+         if(!studentList.isEmpty())
+         {
+        	 throw new StudentNotFoundException(professorId);
+         }
+        }
+    	catch(StudentNotFoundException e)
+    	{
+    		logger.error(e.getMessage());
+    	}
         return studentList;
     }
 

@@ -17,13 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 
 /**
  * @author Implementation of Professor DAO Interface all methods to interacts with DB
  */
+@Component
 public class ProfessorDaoImpl implements ProfessorDaoInterface {
 	
 	 private static Logger logger = Logger.getLogger(ProfessorDaoImpl.class);
+	 
 
     private static volatile ProfessorDaoImpl instance = null;
     public ProfessorDaoImpl() {
@@ -62,8 +67,9 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
                 cs.setCourseDetails(rs.getString(6));
                 list.add(cs);
                 
+                
             }
-        
+        System.out.println("InsideDAo" +list);
 		
 		  if(list.isEmpty()) {
 		  
