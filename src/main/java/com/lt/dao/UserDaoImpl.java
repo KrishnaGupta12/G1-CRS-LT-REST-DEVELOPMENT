@@ -10,6 +10,7 @@ import com.lt.constants.SqlConstants;
 import com.lt.exception.*;
 import com.lt.util.DBUtil;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 /**
  * @author User DAO implementation method for login to interacts with DB
  */
-
+@Component
 public class UserDaoImpl implements UserDaoInterface {
 
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);

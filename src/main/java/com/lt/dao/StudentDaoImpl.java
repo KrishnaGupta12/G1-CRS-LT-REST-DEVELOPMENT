@@ -5,6 +5,7 @@ import com.lt.constants.SqlConstants;
 import com.lt.exception.*;
 import com.lt.util.DBUtil;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.sql.Date;
@@ -13,7 +14,7 @@ import java.util.*;
 /**
  * @author Implementation of Student DAO Interface all methods to interacts with DB
  */
-
+@Component
 public class StudentDaoImpl implements StudentDaoInterface {
     private static Logger logger = Logger.getLogger(StudentDaoImpl.class);
 

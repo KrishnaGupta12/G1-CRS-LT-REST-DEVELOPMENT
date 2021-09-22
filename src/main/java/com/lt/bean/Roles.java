@@ -1,6 +1,11 @@
 package com.lt.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Roles {
+	@Id
     private int role_id;
     private String role_name;
 

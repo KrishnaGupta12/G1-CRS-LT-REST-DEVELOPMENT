@@ -8,14 +8,19 @@ import com.lt.exception.CourseNotFoundException;
 
 import java.sql.SQLException;
 import java.util.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 //import static com.lt.dao.StudentDao.studentsList;
 
 /**
  * @author Student Business Layer implementing student DAO.
  */
+@Component
 public class StudentImplService implements StudentDaoInterface {
-
-    StudentDaoImpl studentDao = StudentDaoImpl.getInstance();
+	@Autowired
+	StudentDaoImpl studentDao;
+    //StudentDaoImpl studentDao = StudentDaoImpl.getInstance();
     CourseDaoImpl courseDao = null;
     boolean flag = false;
 

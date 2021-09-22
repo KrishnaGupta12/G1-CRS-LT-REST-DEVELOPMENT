@@ -3,9 +3,13 @@ package com.lt.bean;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+@Entity
 public class Student extends User {
     private long studentId;
     private String studentName;
+    @Id
     private String studentEmail;
     private char gender;
     private Date studentDOB;

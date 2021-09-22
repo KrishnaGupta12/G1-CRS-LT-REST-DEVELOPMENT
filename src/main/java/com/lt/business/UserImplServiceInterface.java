@@ -12,6 +12,8 @@ import com.lt.dao.UserDaoImpl;
 import com.lt.exception.RoleNotFoundException;
 import com.lt.exception.StudentDetailsNotFoundException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +21,7 @@ import java.sql.SQLException;
 /**
  * @author User Implementation with DAO Layer
  */
+@Component
 public class UserImplServiceInterface {
 
     private static Logger logger = Logger.getLogger(UserImplServiceInterface.class);
@@ -32,7 +35,9 @@ public class UserImplServiceInterface {
 //    public void gatPassword() {
 //
 //    }
-    UserDaoImpl userDao = UserDaoImpl.getInstance();
+    @Autowired
+    UserDaoImpl userDao;
+    //UserDaoImpl userDao = UserDaoImpl.getInstance();
 
 
     public int login(String username, String password) throws SQLException, UserNotFoundException {
@@ -44,4 +49,9 @@ public class UserImplServiceInterface {
     public void getUserMenu(int role, String userName) throws SQLException, IOException {
        userDao.getUserMenu(role,userName);
     }
+    
+    public Roles getRoleDetails(int role) throws SQLException, IOException {
+        return userDao.getRoleDetails(role);
+     }
+    
 }
