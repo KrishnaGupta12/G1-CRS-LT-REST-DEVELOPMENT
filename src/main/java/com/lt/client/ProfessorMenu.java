@@ -5,6 +5,7 @@ import com.lt.business.ProfessorImplService;
 import com.lt.business.ProfessorInterface;
 import com.lt.business.StudentImplService;
 import com.lt.exception.CourseNotAssignedToProfessorException;
+import com.lt.exception.GradeNotAddedException;
 import com.lt.exception.StudentNotFoundException;
 
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import java.util.Scanner;
  * @author Professor Individual Menu with all the professor functionality
  */
 public class ProfessorMenu {
-    public void professorSession(String userName, long professorId, String professorName, String loginTime) throws SQLException, CourseNotAssignedToProfessorException, StudentNotFoundException {
+    public void professorSession(String userName, long professorId, String professorName, String loginTime) throws SQLException, CourseNotAssignedToProfessorException, StudentNotFoundException, GradeNotAddedException {
         System.out.println("Welcome "+professorName+" to your panel. Have a Good day!!");
         System.out.println("Login at : "+loginTime);
         System.out.println("------------------------------------------------------------");
@@ -43,7 +44,7 @@ public class ProfessorMenu {
                     int semesterId = sc.nextInt();
                     System.out.println("Enter StudentId : ");
                     long studentId = sc.nextLong();
-                    List<Courses>  registeredStudentList = professorImplService.getListofStudents(studentId,semesterId);
+                    List<Courses>  registeredStudentList = professorImplService.getListofRegCourses(studentId,semesterId);
                     if(!registeredStudentList.isEmpty()) {
                         System.out.println(String.format("|%-10s | %-10s |", "-----------", "-----------"));
                         System.out.println(String.format("|%-10s | %-10s |", "COURSE ID", "COURSE NAME"));

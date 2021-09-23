@@ -92,34 +92,34 @@ public class UserDaoImpl implements UserDaoInterface {
         return role;
     }
 
-    @Override
-    public void getUserMenu(int role, String userName) throws SQLException, IOException {
-        try {
-            Roles roles = getRoleDetails(role);
-            if(roles == null){
-                throw new RoleNotFoundException();
-            }
-            if (roles.getRole_id() == role && roles.getRole_name().equalsIgnoreCase("STUDENT")) {
-                StudentMenu studentmenu = new StudentMenu();
-                //  StudentDaoImpl studentDao = new StudentDaoImpl();
-                Student stud = studentDao.getStudent(userName);
-                studentmenu.studentSession(userName, stud.getStudentId(), stud.getStudentName(), getLoginTime());
-            } else if (roles.getRole_id() == role && roles.getRole_name().equalsIgnoreCase("PROFESSOR")) {
-                ProfessorMenu professorMenu = new ProfessorMenu();
-                //   ProfessorDaoImpl professorDao = new ProfessorDaoImpl();
-                Professor professor = professorDao.getProfessorId(userName);
-                professorMenu.professorSession(userName, professor.getProfessorId(), professor.getProfessorName(), getLoginTime());
-            } else if (roles.getRole_id() == role && roles.getRole_name().equalsIgnoreCase("ADMIN")) {
-                AdminMenu admin = new AdminMenu();
-                admin.adminSession(userName, getLoginTime());
-            } else {
-                System.out.println("Invalid user");
-            }
-            } catch (SQLException | IOException | RoleNotFoundException | ProfessorNotFoundException | CourseNotAssignedToProfessorException | StudentNotFoundException | StudentDetailsNotFoundException e) {
-            logger.error(e.getMessage());
-        }
+//    @Override
+//    public void getUserMenu(int role, String userName) throws SQLException, IOException {
+//        try {
+//            Roles roles = getRoleDetails(role);
+//            if(roles == null){
+//                throw new RoleNotFoundException();
+//            }
+//            if (roles.getRole_id() == role && roles.getRole_name().equalsIgnoreCase("STUDENT")) {
+//                StudentMenu studentmenu = new StudentMenu();
+//                //  StudentDaoImpl studentDao = new StudentDaoImpl();
+//                Student stud = studentDao.getStudent(userName);
+//                studentmenu.studentSession(userName, stud.getStudentId(), stud.getStudentName(), getLoginTime());
+//            } else if (roles.getRole_id() == role && roles.getRole_name().equalsIgnoreCase("PROFESSOR")) {
+//                ProfessorMenu professorMenu = new ProfessorMenu();
+//                //   ProfessorDaoImpl professorDao = new ProfessorDaoImpl();
+//                Professor professor = professorDao.getProfessorId(userName);
+//               // professorMenu.professorSession(userName, professor.getProfessorId(), professor.getProfessorName(), getLoginTime());
+//            } else if (roles.getRole_id() == role && roles.getRole_name().equalsIgnoreCase("ADMIN")) {
+//                AdminMenu admin = new AdminMenu();
+//                admin.adminSession(userName, getLoginTime());
+//            } else {
+//                System.out.println("Invalid user");
+//            }
+//            } catch (SQLException | IOException | RoleNotFoundException | ProfessorNotFoundException | CourseNotAssignedToProfessorException | StudentNotFoundException | StudentDetailsNotFoundException e) {
+//            logger.error(e.getMessage());
+//        }
 
-    }
+   // }
 
 
     @Override

@@ -61,7 +61,7 @@ public class CRSApplication {
                         System.out.println("User details not found..! Contact admin");
                     }
                     else {
-                        userImplService.getUserMenu(rol, userName);
+                      //  userImplService.getUserMenu(rol, userName);
                     }
                     System.out.println("***************************************************");
                     break;
