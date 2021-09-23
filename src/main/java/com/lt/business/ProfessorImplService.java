@@ -26,6 +26,8 @@ public class ProfessorImplService extends User implements ProfessorInterface {
 	 @Autowired
 		ProfessorDaoInterface pdo;
 	 
+	 boolean flag = false;
+	 
 	@Override
     public List<Courses> viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException, SQLException {
 		List<Courses> courseList = null;
@@ -53,15 +55,16 @@ public class ProfessorImplService extends User implements ProfessorInterface {
     }
 
     @Override
-    public void addGrade(Grade grade) throws SQLException,StudentNotFoundException {
+    public boolean addGrade(Grade grade) throws SQLException,GradeNotAddedException {
         ProfessorDaoImpl pdo = new ProfessorDaoImpl();
-        pdo.addGrade(grade);
+        flag = pdo.addGrade(grade);
+       return flag;
     }
 
     @Override
-    public List<Courses> getListofStudents( long studentId,long semesterId) throws SQLException,StudentNotFoundException{
+    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException,StudentNotFoundException{
         ProfessorDaoImpl pdo = new ProfessorDaoImpl();
-        List<Courses> studentList = pdo.getListofStudents(studentId,semesterId);
+        List<Courses> studentList = pdo.getListofRegCourses(studentId,semesterId);
         return studentList;
     }
 
@@ -89,5 +92,7 @@ public class ProfessorImplService extends User implements ProfessorInterface {
         Professor prof = pdo.getProfessorId(username);
         return prof;
     }
+    
+    
 
 }

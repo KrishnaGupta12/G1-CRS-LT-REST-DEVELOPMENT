@@ -5,6 +5,7 @@ import com.lt.bean.Grade;
 import com.lt.bean.Professor;
 import com.lt.bean.Student;
 import com.lt.exception.CourseNotAssignedToProfessorException;
+import com.lt.exception.GradeNotAddedException;
 import com.lt.exception.ProfessorNotFoundException;
 import com.lt.exception.StudentNotFoundException;
 
@@ -40,7 +41,7 @@ public interface ProfessorDaoInterface {
      * @param grade: Grade to be added for course
      * @return void
      */
-    public void addGrade(Grade grade) throws SQLException,StudentNotFoundException;
+    public boolean addGrade(Grade grade) throws SQLException,GradeNotAddedException;
 
     /**
      * Method to show list of students to  student from database
@@ -48,7 +49,7 @@ public interface ProfessorDaoInterface {
      * @param professor_id: professor id for which the student to be displayed
      * @return some list  of students
      */
-    public List<Courses> getListofStudents( long studentId,long semesterId) throws SQLException, StudentNotFoundException;
+    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException, StudentNotFoundException;
 
     /**
      * Method to show get professor  from database
