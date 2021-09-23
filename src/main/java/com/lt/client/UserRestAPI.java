@@ -28,16 +28,7 @@ import com.lt.business.UserInterface;
 
 import com.lt.business.UserImplServiceInterface;
 
-/**
- * 
- * 
- * @author dilpreetkaur
- *
- * 
- * 
- * 
- * 
- */
+
 
 @RestController
 @RequestMapping("/user")
@@ -57,17 +48,16 @@ public class UserRestAPI {
 	public ResponseEntity verifyCredentials(@PathVariable String username, @PathVariable String password)
 			throws ValidationException, SQLException, UserNotFoundException, IOException, ProfessorNotFoundException {
 
-		//try
-
-		//{
 			int roleId = userImplService.login(username, password);
-			if (roleId != 0) {
-				Roles role = userImplService.getRoleDetails(roleId);
-
+			Roles role = userImplService.getRoleDetails(roleId);
+			
+			if (roleId == 0){
+				throw new UserNotFoundException(username, password);
+			}
+			else {
 				switch (roleId) {
 				case 1:
 					Student stud = studentImplService.getStudent(username);
-					// return ResponseEntity.status(HttpStatus.ACCEPTED).build()
 					return new ResponseEntity<>("Student Login Succesful", HttpStatus.OK);
 
 				case 2:
@@ -77,53 +67,18 @@ public class UserRestAPI {
 				case 3:
 					return new ResponseEntity<>("Admin Login Succesful", HttpStatus.OK);
 				}
-
-			} else
-
-			{
-
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-			}
-
-//		} catch (RoleNotFoundException e)
-//
-//		{
-//
-//			return new ResponseEntity<>("Role Not found", HttpStatus.NOT_FOUND);
-//		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+				return new ResponseEntity<>("Login Succesfull ...", HttpStatus.OK);
+			} 
  
 	}
 
-//	@POST
-//
-//	@Path("/studentRegistration")
-//
-//	@Consumes(MediaType.APPLICATION_JSON)
-//
-//	public Response register(@Valid Student student)
-//
-//	{
-//
-//		try
-//
-//		{
-//
-//			studentInterface.register(student.getName(), student.getUserId(), student.getPassword(),
-//					student.getGender(), student.getBatch(), student.getBranchName(), student.getAddress(),
-//					student.getCountry());
-//
-//		} catch (Exception ex)
-//
-//		{
-//
-//			return Response.status(500).entity("Something went wrong! Please try again.").build();
-//
-//		}
-//
-//		return Response.status(201).entity("Registration Successful for " + student.getUserId()).build();
-//
-//	}
-
+	@RequestMapping(value = "/signup",method = RequestMethod.POST)
+	public ResponseEntity signUp(@RequestBody Student student) throws SQLException{
+     boolean flagStudentSignUp = studentImplService.signUp(student);
+     if (flagStudentSignUp) {
+         return new ResponseEntity<>("SignUp SuccessFul..!", HttpStatus.OK);
+     } else {
+         return new ResponseEntity<>("Signup Failed..!", HttpStatus.OK);
+     }
+ }
 }

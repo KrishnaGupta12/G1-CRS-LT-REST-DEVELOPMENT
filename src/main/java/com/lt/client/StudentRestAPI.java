@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lt.bean.Courses;
@@ -20,11 +24,17 @@ import com.lt.bean.RegisterCourse;
 import com.lt.business.StudentImplService;
 import com.lt.business.UserImplServiceInterface;
 import com.lt.constants.ModeOfPayment;
+import com.lt.dao.StudentDaoImpl;
+import com.lt.exception.CourseAlreadyRegisteredException;
+import com.lt.exception.CourseDetailsNotFoundException;
 
 @RestController
 @RequestMapping("/Student")
+@CrossOrigin //@responseststaus @exceptionhandler
 public class StudentRestAPI {
 
+	private static Logger logger = Logger.getLogger(StudentRestAPI.class);
+	
 	@Autowired
 	StudentImplService studentImplService;
 
@@ -33,16 +43,14 @@ public class StudentRestAPI {
 
 	@RequestMapping(value = "/registercourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity registerCourse(@PathVariable long student_id, @PathVariable long course_id,
-			@PathVariable long semester_id) throws SQLException {
+			@PathVariable long semester_id) throws SQLException, CourseAlreadyRegisteredException {
 
 		boolean flag = studentImplService.registerForCourse(student_id, semester_id, course_id);
-		if (flag) {
-			return new ResponseEntity<>("Course Registered Succesfully", HttpStatus.OK);
-
-		} else {
-			return new ResponseEntity<>("Course Not Registered", HttpStatus.NOT_FOUND);
+		if (!flag) {
+			throw new CourseAlreadyRegisteredException();
 		}
-
+			logger.info("Course Registered Succesfully");
+			return new ResponseEntity<>("Course Registered Succesfully", HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/removecourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
@@ -60,11 +68,15 @@ public class StudentRestAPI {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
+	
 	@RequestMapping(value = "/viewregistercourse/{student_id}/{semester_id}", method = RequestMethod.GET)
 	public ResponseEntity<Set<RegisterCourse>> viewRegisteredCourse(@PathVariable long student_id,
-			@PathVariable long semester_id) throws SQLException {
+			@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
 
 		Set<RegisterCourse> list = studentImplService.viewRegisteredCourses(student_id, semester_id);
+		if(list.size() ==0) {
+			throw new CourseDetailsNotFoundException();
+			}
 		return ResponseEntity.of(Optional.of(list));
 	}
 

@@ -107,12 +107,12 @@ public class StudentDaoImpl implements StudentDaoInterface {
                 if (course_semester_id == semesterId && student_id == studentId)
                     registeredList.add(neWCourse);
             }
-//            if (registeredList.isEmpty()) {
-//                throw new CourseDetailsNotFoundException();
-//            }
-        } catch (Exception e) {
-           // logger.error(e.getMsg());
-            logger.error(e.getMessage());
+            if (registeredList.isEmpty()) {
+                throw new CourseDetailsNotFoundException();
+            }
+        } catch (CourseDetailsNotFoundException e) {
+          logger.error(e.getMsg());
+           // logger.error(e.getMessage());
         }
 
         return registeredList;
