@@ -20,79 +20,47 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProfessorImplService implements ProfessorInterface {
-	 private static Logger logger = Logger.getLogger(ProfessorImplService.class);
-	 
-   boolean flag = false;
-   
-@Autowired	 
-ProfessorDaoImpl pdo;
+	private static Logger logger = Logger.getLogger(ProfessorImplService.class);
+
+	boolean flag = false;
+
+	@Autowired
+	ProfessorDaoImpl pdo;
+
 	@Override
-    public List<Courses> viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException  {
-    	
-		List<Courses> courseList = null;
-        try
+	public List<Courses> viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException, SQLException {
 
-        {
-            courseList = pdo.getCourseList(professorId);
+		List<Courses> courseList = pdo.getCourseList(professorId);
 
-        
-        //System.out.println(courseList);
-            if(!courseList.isEmpty()) {
-        System.out.println(String.format("|%-10s | %-10s | %-10s| %-10s|","-----------","-----------","---------" ,"-------")) ;
-        System.out.println(String.format("|%-10s | %-10s | %-10s| %-10s|","COURSE ID","COURSE NAME","DETAILS","FEES"));
-        System.out.println(String.format("|%-10s | %-10s | %-10s| %-10s|","-----------","-----------","---------" ,"-------"));
-        for (Courses c : courseList ){
-            System.out.println(String.format("|%-11s | %-11s | %-11s| %-11s ",
-                    c.getCourseId(),c.getCourseName(),c.getCourseDetails(),c.getCourseFee()));
-        }
-        }
-        }
-        catch(Exception e)
-        {
-        	logger.error(e.getMessage());
-        }
 		return courseList;
-    }
+	}
 
-    @Override
-    public boolean addGrade(Grade grade) throws SQLException,GradeNotAddedException {
-        ProfessorDaoImpl pdo = new ProfessorDaoImpl();
-        flag = pdo.addGrade(grade);
-       return flag;
-    }
+	@Override
+	public boolean addGrade(Grade grade) throws SQLException, GradeNotAddedException {
+		ProfessorDaoImpl pdo = new ProfessorDaoImpl();
+		flag = pdo.addGrade(grade);
+		return flag;
+	}
 
-    @Override
-    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException,StudentNotFoundException{
-        ProfessorDaoImpl pdo = new ProfessorDaoImpl();
-        List<Courses> studentList = pdo.getListofRegCourses(studentId,semesterId);
-        return studentList;
-    }
+	@Override
+	public List<Courses> getListofRegCourses(long studentId, long semesterId)
+			throws SQLException, StudentNotFoundException {
+		ProfessorDaoImpl pdo = new ProfessorDaoImpl();
+		List<Courses> studentList = pdo.getListofRegCourses(studentId, semesterId);
+		return studentList;
+	}
 
-    @Override
-    public List<Student> viewRegisteredStudents(long professorId) throws SQLException, StudentNotFoundException {
-    	List<Student> studentList  = null;
-    	try
-        {
-         studentList = pdo.getStudentList(professorId);
-         if(!studentList.isEmpty())
-         {
-        	 throw new StudentNotFoundException(professorId);
-         }
-        }
-    	catch(StudentNotFoundException e)
-    	{
-    		logger.error(e.getMessage());
-    	}
-        return studentList;
-    }
+	@Override
+	public List<Student> viewRegisteredStudents(long professorId) throws SQLException, StudentNotFoundException {
+		List<Student> studentList = pdo.getStudentList(professorId);
 
-    @Override
-    public Professor getProfessorId(String username) throws SQLException,ProfessorNotFoundException {
-        // pdo = new ProfessorDaoImpl();
-        Professor prof = pdo.getProfessorId(username);
-        return prof;
-    }
-    
-    
+		return studentList;
+	}
+
+	@Override
+	public Professor getProfessorId(String username) throws SQLException, ProfessorNotFoundException {
+		Professor prof = pdo.getProfessorId(username);
+		return prof;
+	}
 
 }

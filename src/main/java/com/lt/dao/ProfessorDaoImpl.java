@@ -70,7 +70,6 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
                 
                 
             }
-        System.out.println("InsideDAo" +list);
 		
 		  if(list.isEmpty()) {
 		  
