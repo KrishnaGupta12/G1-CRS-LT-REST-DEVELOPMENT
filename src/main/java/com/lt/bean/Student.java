@@ -3,7 +3,11 @@ package com.lt.bean;
 import java.util.Date;
 import java.util.List;
 
-public class Student extends User {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+@Entity
+public class Student  {
+	@Id
     private long studentId;
     private String studentName;
     private String studentEmail;
@@ -12,7 +16,7 @@ public class Student extends User {
     private long contact_no;
     private long semester_id;
     private String passWord;
-    private List<Courses> listCourses;
+   // private List<Courses> listCourses;
 
     public Student() {
     }

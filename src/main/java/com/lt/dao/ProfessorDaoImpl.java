@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Implementation of Professor DAO Interface all methods to interacts with DB
  */
+@Component
 public class ProfessorDaoImpl implements ProfessorDaoInterface {
 	
 	 private static Logger logger = Logger.getLogger(ProfessorDaoImpl.class);

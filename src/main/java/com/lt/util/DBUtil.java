@@ -22,12 +22,12 @@ public class DBUtil {
         else {
             try {
                 Properties prop = new Properties();
-                InputStream inputStream = DBUtil.class.getClassLoader().getResourceAsStream("./config.properties");
+                InputStream inputStream = DBUtil.class.getClassLoader().getResourceAsStream("application.properties");
                 prop.load(inputStream);
-                String driver = prop.getProperty("driver");
-                String url = prop.getProperty("url");
-                String user = prop.getProperty("user");
-                String password = prop.getProperty("password");
+                String driver = prop.getProperty("spring.datasource.driverClassName");
+                String url = prop.getProperty("spring.datasource.url");
+                String user = prop.getProperty("spring.datasource.username");
+                String password = prop.getProperty("spring.datasource.password");
                 Class.forName(driver);
                 connection = DriverManager.getConnection(url, user, password);
             } catch (ClassNotFoundException e) {

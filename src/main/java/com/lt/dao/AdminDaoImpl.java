@@ -10,6 +10,7 @@ import com.lt.exception.CourseDetailsNotFoundException;
 import com.lt.exception.StudentDetailsNotFoundException;
 import com.lt.util.DBUtil;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

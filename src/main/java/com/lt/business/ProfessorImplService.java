@@ -14,14 +14,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
-
-public class ProfessorImplService extends User implements ProfessorInterface {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+@Component
+public class ProfessorImplService implements ProfessorInterface {
 	 private static Logger logger = Logger.getLogger(ProfessorImplService.class);
-ProfessorDaoImpl pdo = ProfessorDaoImpl.getInstance();
+	 
+@Autowired	 
+ProfessorDaoImpl pdo;
 	@Override
     public void viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException  {
     	
-        ProfessorDaoImpl pdo = new ProfessorDaoImpl();
         try
         {
             List<Courses> courseList = pdo.getCourseList(professorId);
