@@ -1,5 +1,0 @@
-17:25:18,571 ERROR ProfessorImplService,http-nio-8082-exec-1:49 - inStream parameter is null
-17:39:40,174 ERROR ProfessorImplService,http-nio-8082-exec-1:50 - inStream parameter is null
-17:43:00,753 ERROR ProfessorImplService,http-nio-8082-exec-1:50 - inStream parameter is null
-19:09:02,382 ERROR ProfessorDaoImpl,http-nio-8082-exec-1:163 - No Students Registered under you..!
-20:10:30,286 ERROR ProfessorDaoImpl,http-nio-8082-exec-1:163 - No Students Registered under you..!

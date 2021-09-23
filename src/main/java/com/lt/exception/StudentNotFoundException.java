@@ -22,6 +22,15 @@ private long semesterId;
 
 
 
+	public StudentNotFoundException() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public String getMessage(){
+		return "No registered students found  ..!";
+	}
+
+
 	public String getMessage(long professorId){
 		return "No Students Registered under you..!";
 	}

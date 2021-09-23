@@ -27,8 +27,9 @@ public class ProfessorImplService implements ProfessorInterface {
 @Autowired	 
 ProfessorDaoImpl pdo;
 	@Override
-    public void viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException  {
+    public List<Courses> viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException  {
     	
+		List<Courses> courseList = null;
         try
 
         {
