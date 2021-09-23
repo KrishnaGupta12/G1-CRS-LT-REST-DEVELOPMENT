@@ -22,6 +22,18 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
 	}
 	
+	@ExceptionHandler(value = UserNotFoundException.class)
+	public ResponseEntity handleException(UserNotFoundException e) {
+		
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(value = StudentAlreadyRegisteredException.class)
+	public ResponseEntity handleException(StudentAlreadyRegisteredException e) {
+		
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+	}
+	
 	
 	
 

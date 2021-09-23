@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.lt.bean.Professor;
 import com.lt.bean.Roles;
 import com.lt.bean.Student;
+import com.lt.bean.User;
 import com.lt.exception.ProfessorNotFoundException;
 import com.lt.exception.RoleNotFoundException;
+import com.lt.exception.StudentAlreadyRegisteredException;
 import com.lt.exception.StudentDetailsNotFoundException;
 
 import com.lt.exception.UserNotFoundException;
@@ -43,42 +45,42 @@ public class UserRestAPI {
 	@Autowired
 	ProfessorImplService professorImplService;
 
-	@RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 
-	public ResponseEntity verifyCredentials(@PathVariable String username, @PathVariable String password)
+	public ResponseEntity verifyCredentials(@RequestBody User user)
 			throws ValidationException, SQLException, UserNotFoundException, IOException, ProfessorNotFoundException {
 
-			int roleId = userImplService.login(username, password);
+			int roleId = userImplService.login(user.getUserName(),user.getUserPassword());
 			Roles role = userImplService.getRoleDetails(roleId);
 			
 			if (roleId == 0){
-				throw new UserNotFoundException(username, password);
+				throw new UserNotFoundException();
 			}
 			else {
 				switch (roleId) {
 				case 1:
-					Student stud = studentImplService.getStudent(username);
+					Student stud = studentImplService.getStudent(user.getUserName());
 					return new ResponseEntity<>("Student Login Succesful", HttpStatus.OK);
 
 				case 2:
-					Professor pr = professorImplService.getProfessorId(username);
+					Professor pr = professorImplService.getProfessorId(user.getUserName());
 					return new ResponseEntity<>("Professor Login Succesful", HttpStatus.OK);
 
 				case 3:
 					return new ResponseEntity<>("Admin Login Succesful", HttpStatus.OK);
 				}
-				return new ResponseEntity<>("Login Succesfull ...", HttpStatus.OK);
+				return new ResponseEntity<>("Invalid User ...", HttpStatus.CONFLICT);
 			} 
  
 	}
 
 	@RequestMapping(value = "/signup",method = RequestMethod.POST)
-	public ResponseEntity signUp(@RequestBody Student student) throws SQLException{
+	public ResponseEntity signUp(@RequestBody Student student) throws SQLException, StudentAlreadyRegisteredException{
      boolean flagStudentSignUp = studentImplService.signUp(student);
      if (flagStudentSignUp) {
          return new ResponseEntity<>("SignUp SuccessFul..!", HttpStatus.OK);
      } else {
-         return new ResponseEntity<>("Signup Failed..!", HttpStatus.OK);
+         throw new StudentAlreadyRegisteredException();
      }
  }
 }
