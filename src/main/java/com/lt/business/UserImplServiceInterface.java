@@ -46,9 +46,9 @@ public class UserImplServiceInterface {
 
 
 
-    public void getUserMenu(int role, String userName) throws SQLException, IOException {
-       userDao.getUserMenu(role,userName);
-    }
+//    public void getUserMenu(int role, String userName) throws SQLException, IOException {
+//       userDao.getUserMenu(role,userName);
+//    }
     
     public Roles getRoleDetails(int role) throws SQLException, IOException {
         return userDao.getRoleDetails(role);
