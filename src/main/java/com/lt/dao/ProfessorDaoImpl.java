@@ -17,7 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+
 
 /**
  * @author Implementation of Professor DAO Interface all methods to interacts with DB
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Component;
 public class ProfessorDaoImpl implements ProfessorDaoInterface {
 	
 	 private static Logger logger = Logger.getLogger(ProfessorDaoImpl.class);
+	 
 
     private static volatile ProfessorDaoImpl instance = null;
     public ProfessorDaoImpl() {
@@ -64,8 +68,9 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
                 cs.setCourseDetails(rs.getString(6));
                 list.add(cs);
                 
+                
             }
-        
+        System.out.println("InsideDAo" +list);
 		
 		  if(list.isEmpty()) {
 		  
@@ -79,14 +84,14 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
     }
 
     @Override
-    public List<Courses> getListofStudents( long studentId,long semesterId) throws SQLException,StudentNotFoundException {
-    	List<Courses> registeredStudentList = null;
+    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException,StudentNotFoundException {
+    	List<Courses> registeredCourseList = null;
     	try
         {
     	Connection con = null;
         PreparedStatement ps = null;
         con = DBUtil.getConnection();
-        registeredStudentList = new ArrayList<Courses>();
+        registeredCourseList = new ArrayList<Courses>();
         ps = con.prepareStatement(SqlConstants.LIST_REG_COURSES_SEM);
         ps.setInt(1, (int) studentId);
         ps.setInt(2, (int) semesterId);
@@ -95,9 +100,9 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
             long courseId = rs.getLong(1);
            String courseName = rs.getString(2);
            Courses cs = new Courses(courseId,courseName);
-            registeredStudentList.add(cs);
+            registeredCourseList.add(cs);
         }
-        if(registeredStudentList.isEmpty()) {
+        if(registeredCourseList.isEmpty()) {
         	throw new StudentNotFoundException(studentId, semesterId);
         }
         }
@@ -106,13 +111,13 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
         	logger.error(e.getMessage(studentId,semesterId));
        
         }
-        return registeredStudentList;
+        return registeredCourseList;
     }
 
 
     @Override
 
-    public void addGrade(Grade grade) throws SQLException,StudentNotFoundException  {
+    public boolean addGrade(Grade grade) throws SQLException {
     	Connection con = null;
         PreparedStatement ps = null;
         con = DBUtil.getConnection();
@@ -124,9 +129,10 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
         ps.setString(5, grade.getGrade());
         int flag = ps.executeUpdate();
         if(flag != 0) 
-        	logger.info(" Grade added  successfully for course id : "+ grade.getCourseId());
-        else
-        	logger.error("Data not inserted.. : "+ grade.getCourseId());
+        	//logger.info(" Grade added  successfully for course id : "+ grade.getCourseId());
+        	return true;
+    	return false;
+        
     }
 
     //List f students registered for a courses taught by the professor
