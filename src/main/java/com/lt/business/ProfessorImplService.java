@@ -19,19 +19,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProfessorImplService extends User implements ProfessorInterface {
+public class ProfessorImplService implements ProfessorInterface {
 	 private static Logger logger = Logger.getLogger(ProfessorImplService.class);
-//ProfessorDaoImpl pdo = ProfessorDaoImpl.getInstance();
 	 
-	 @Autowired
-		ProfessorDaoInterface pdo;
-	 
-	 boolean flag = false;
-	 
+   boolean flag = false;
+   
+@Autowired	 
+ProfessorDaoImpl pdo;
 	@Override
-    public List<Courses> viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException, SQLException {
-		List<Courses> courseList = null;
-		try
+    public void viewFullCourses(long professorId) throws CourseNotAssignedToProfessorException  {
+    	
+        try
+
         {
             courseList = pdo.getCourseList(professorId);
 
