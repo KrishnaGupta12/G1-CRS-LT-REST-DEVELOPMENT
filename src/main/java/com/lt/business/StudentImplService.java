@@ -1,17 +1,21 @@
 package com.lt.business;
 
-import com.lt.bean.*;
-import com.lt.dao.CourseDaoImpl;
-import com.lt.dao.StudentDaoImpl;
-import com.lt.dao.StudentDaoInterface;
-import com.lt.exception.CourseNotFoundException;
-
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-//import static com.lt.dao.StudentDao.studentsList;
+
+import com.lt.bean.Courses;
+import com.lt.bean.GradeCard;
+import com.lt.bean.Payment;
+import com.lt.bean.RegisterCourse;
+import com.lt.bean.Student;
+import com.lt.dao.StudentDaoImpl;
+import com.lt.dao.StudentDaoInterface;
 
 /**
  * @author Student Business Layer implementing student DAO.
@@ -20,8 +24,7 @@ import org.springframework.stereotype.Component;
 public class StudentImplService implements StudentDaoInterface {
 	@Autowired
 	StudentDaoImpl studentDao;
-    //StudentDaoImpl studentDao = StudentDaoImpl.getInstance();
-    CourseDaoImpl courseDao = null;
+  
     boolean flag = false;
 
 

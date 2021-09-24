@@ -43,7 +43,7 @@ public class ProfessorImplService implements ProfessorInterface {
 
 	@Override
 	public List<Courses> getListofRegCourses(long studentId, long semesterId)
-			throws SQLException, StudentNotFoundException {
+			throws SQLException {
 		List<Courses> studentList = pdo.getListofRegCourses(studentId, semesterId);
 		return studentList;
 	}

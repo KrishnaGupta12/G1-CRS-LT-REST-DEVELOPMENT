@@ -18,12 +18,30 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public interface UserDaoInterface {
+	
+	 /**
+     * Method to login user
+     *
+     * @param username: username of user
+     * @param password: password of user
+     * @return value with update status
+     */
 	public int login(String username, String password) throws SQLException, UserNotFoundException;
 
+	 /**
+     * Method get role details
+     *
+     * @param roleId: roleId from roles table
+     * @return Roles details for table
+     */
     public Roles getRoleDetails(int roleId) throws SQLException, RoleNotFoundException;
 
-    //public void getUserMenu(int role, String userName) throws SQLException, IOException;
-
+    
+    /**
+     * Method to get login Time
+     *
+     * @return String  message with login time details
+     */
     public String getLoginTime();
 
 

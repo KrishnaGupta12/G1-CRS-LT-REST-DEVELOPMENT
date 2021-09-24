@@ -30,6 +30,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+/**
+ *  Professor Rest Controller with all rest apis for professorS 
+ */
 @RestController
 @RequestMapping("/professor")
 @CrossOrigin
@@ -39,6 +42,15 @@ public class ProfessorController {
 	ProfessorImplService professorImplService;
 
 	private static Logger logger = Logger.getLogger(ProfessorController.class);
+	
+	
+	/**
+     * Method to show list of courses teach by professor student from database
+     *
+     * @param professorId: professor id for which list of courses should be displayed
+     * @return ResponseEntity with proper status code
+     * @exception CourseNotAssignedToProfessorException
+     */
 
 	@ApiOperation(value = " View Assigned Courses ", tags = "viewcourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
@@ -56,6 +68,16 @@ public class ProfessorController {
 		return ResponseEntity.of(Optional.of(list));
 	}
 
+	
+	
+	/**
+     * Method to show list of students from database
+     *
+     * @param studentId:  studentId for which display list of students
+     * @param semesterId: semesterId list for this student
+     * @return ResponseEntity with proper status code
+     * @exception StudentNotFoundException
+     */
 	@ApiOperation(value = " View Registered Students under Professor ", tags = "viewregisteredtudents")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "No registered students found  ..! ") })
@@ -71,14 +93,22 @@ public class ProfessorController {
 		logger.info("Students register under Professor with ID :" + professorId);
 		return ResponseEntity.of(Optional.of(list));
 	}
-
+	
+	
+	/**
+     * Method to show list of courses registered for student
+     *
+     * @param professor_id: professor id for which the student to be displayed
+     * @return ResponseEntity with proper status code
+     * @exception CourseDetailsNotFoundException
+     */
 	@ApiOperation(value = " Course List for student ", tags = "courselist")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "Course not found  ..! ") })
 	@RequestMapping(value = "/courselist/{student_id}/{semesterId}", method = RequestMethod.GET)
 	public ResponseEntity showCourseList(@PathVariable("student_id") long studentId,
 			@PathVariable("semesterId") long semesterId)
-			throws SQLException, CourseDetailsNotFoundException, StudentNotFoundException {
+			throws SQLException, CourseDetailsNotFoundException {
 		List<Courses> studentList = professorImplService.getListofRegCourses(studentId, semesterId);
 
 		if (studentList.size() == 0) {
@@ -87,7 +117,16 @@ public class ProfessorController {
 		logger.info("Student with Id " + studentId + " registered Courses");
 		return ResponseEntity.of(Optional.of(studentList));
 	}
+	
+	
 
+    /**
+     * Method to add grade to database
+     *
+     * @param grade: Grade to be added for course
+     * @return ResponseEntity with proper status code
+     * @exception GradeNotAddedException
+     */
 	@ApiOperation(value = " Add Grade ", tags = "addgrade")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Grade added Successfully..!"),
 			@ApiResponse(code = 409, message = "  Grade can't be added..! ") })

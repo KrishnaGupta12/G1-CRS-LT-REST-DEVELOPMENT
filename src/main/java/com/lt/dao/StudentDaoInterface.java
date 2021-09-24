@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * @author Student DAO Interface with all student Methods
+ *  Student DAO Interface with all student Methods
  */
 public interface StudentDaoInterface {
 

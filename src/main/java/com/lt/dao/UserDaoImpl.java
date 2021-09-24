@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lt.bean.Roles;
@@ -38,8 +39,10 @@ public class UserDaoImpl implements UserDaoInterface {
 		return instance;
 	}
 
-	StudentDaoImpl studentDao = StudentDaoImpl.getInstance();
-	ProfessorDaoImpl professorDao = ProfessorDaoImpl.getInstance();
+	@Autowired
+	StudentDaoImpl studentDao ;
+	@Autowired
+	ProfessorDaoImpl professorDao;
 
 	/**
 	 * User Login Method

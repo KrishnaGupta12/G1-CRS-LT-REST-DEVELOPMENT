@@ -15,7 +15,7 @@ public interface AdminDaoInterface {
     /**
      * Method to add professor to database
      *
-     * @param professor:   for which course
+     * @param professor:  professor details to be added 
      * @return void and print message
      */
     public boolean addProfessor(Professor professor) throws SQLException;
@@ -23,7 +23,7 @@ public interface AdminDaoInterface {
     /**
      * Method to add student after approval to database
      *
-     * @param studentId:   for which course
+     * @param studentId:   student_id for which approval is required
      * @return void and print message
      */
     public boolean approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException;

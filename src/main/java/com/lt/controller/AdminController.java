@@ -35,6 +35,14 @@ public class AdminController {
 	@Autowired
 	AdminImplService adminImplService;
 
+	
+	/**
+     * Method to add course to database
+     *
+     * @param course: Course details to add in database
+     * @return ResponseEntity with proper status code
+     * @exception CourseExistedException
+     */
 	@ApiOperation(value = "Add Course Details ", tags = "addCourseDetails")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Course Added"),
 			@ApiResponse(code = 409, message = "Courses Already Existed") })
@@ -49,7 +57,15 @@ public class AdminController {
 		return new ResponseEntity("Course Added", HttpStatus.OK);
 
 	}
-
+	
+	
+	/**
+     * Method to show list of available course to  admin from database
+     *
+     * @return Response Entity with proper status code
+     * @exception CourseNotFoundException 
+     * 
+     */
 	@ApiOperation(value = "View all Courses ", tags = "viewAllCourses")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 409, message = "Course Not Found") })
@@ -63,6 +79,13 @@ public class AdminController {
 		return ResponseEntity.of(Optional.of(coursesList));
 	}
 
+	
+	/**
+     * Method to delete course to database
+     *
+     * @param courseId Course for which display list of students
+     * @return Response Entity with proper status code
+     */
 	@ApiOperation(value = "Remove Course ", tags = "deleteCourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Course Found & Deleted successfully"),
 			@ApiResponse(code = 404, message = "Course Not Found") })
@@ -78,7 +101,14 @@ public class AdminController {
 
 		return new ResponseEntity<>("Course Not Found -", HttpStatus.NOT_FOUND);
 	}
-
+	
+	
+	
+	/**
+     * Method to show list of students pending for  approval from database
+     *
+     * @return Response Entity with proper status code
+     */
 	@ApiOperation(value = "Pending Approval Student List ", tags = "pendingapproval")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "No Students Pending for Approval") })
@@ -94,6 +124,14 @@ public class AdminController {
 		return ResponseEntity.of(Optional.of(studList));
 	}
 
+	
+	/**
+     * Method to add student after approval to database
+     *
+     * @param studentId:   student_id for which approval is required
+     * @return Response Entity with proper status code
+     * @exception StudentDetailsNotFoundException
+     */
 	@ApiOperation(value = " Approve Student  ", tags = "approvestudent")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Student Approved successfully"),
 			@ApiResponse(code = 404, message = "No Students Pending for Approval") })
@@ -105,6 +143,13 @@ public class AdminController {
 		return new ResponseEntity<>("Student Approved successfully", HttpStatus.OK);
 	}
 
+	
+	
+	/**
+     * Method to generate report card from database
+     *
+     * @return Response Entity with proper status code
+     */
 	@ApiOperation(value = " Generate Report Card ", tags = "generatereportcard")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Report Card Generated successfully"),
 			@ApiResponse(code = 409, message = "Report Card Not Generated") })
@@ -118,6 +163,13 @@ public class AdminController {
 
 	}
 
+	
+	/**
+     * Method to add professor to database
+     *
+     * @param professor:  professor details to  be added
+     * @return Response Entity with proper status code
+     */
 	@ApiOperation(value = " Add Professor ", tags = "addprofessor")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Professor Added successfully"),
 			@ApiResponse(code = 409, message = "Professor Not Added") })

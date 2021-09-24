@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ProfessorInterface {
-    //public boolean signUp(Professor professor) throws SQLException;
+   
 
     public  List<Courses>  viewFullCourses(long professorId) throws  CourseNotAssignedToProfessorException,SQLException ;
 
@@ -22,7 +22,7 @@ public interface ProfessorInterface {
     
     public boolean addGrade(Grade grade) throws SQLException,GradeNotAddedException;
 
-    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException, StudentNotFoundException;
+    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException;
 
     public Professor getProfessorId(String username) throws SQLException, ProfessorNotFoundException;
 }

@@ -83,7 +83,7 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
     }
 
     @Override
-    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException,StudentNotFoundException {
+    public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException {
     	List<Courses> registeredCourseList = null;
     	try
         {

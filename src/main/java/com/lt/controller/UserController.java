@@ -27,7 +27,9 @@ import com.lt.exception.UserNotFoundException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
+/**
+ *  User Rest Controller with all rest apis
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -40,13 +42,18 @@ public class UserController {
 
 	@Autowired
 	ProfessorImplService professorImplService;
-
+	
+/**
+   * Method to login user
+   *
+   * @param User details
+   * @return Response Entity with required status code
+   */
 	@ApiOperation(value = " User Login ", tags = "login")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "Course not assigned to Professor ") })
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-
 	public ResponseEntity verifyCredentials(@RequestBody User user)
 			throws ValidationException, SQLException, UserNotFoundException, IOException, ProfessorNotFoundException {
 
@@ -72,7 +79,13 @@ public class UserController {
 		}
 
 	}
-
+	
+	/**
+	   * Method to sign up student
+	   *
+	   * @param Student details
+	   * @return Response Entity with required status code
+	   */
 	@ApiOperation(value = " Student Sign Up ", tags = "signup")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "SignUp SuccessFul..!"),
 			@ApiResponse(code = 404, message = "Student Already Registered") })

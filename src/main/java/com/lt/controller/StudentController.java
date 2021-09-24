@@ -27,10 +27,15 @@ import com.lt.exception.CourseDetailsNotFoundException;
 
 import io.swagger.annotations.*;
 
+/**
+ *  Student Rest Controller with all rest apis for student 
+ */
+
 @RestController
 @RequestMapping("/Student")
 @CrossOrigin
 public class StudentController {
+	
 
 	private static Logger logger = Logger.getLogger(StudentController.class);
 
@@ -40,6 +45,14 @@ public class StudentController {
 	@Autowired
 	UserImplService userImplService;
 
+	
+	/**
+     * Method to show list of available course to  student from database
+     *
+     * @param semesterId: semeseter for which list need to be displayed
+     * @return ResponseEntity with proper status code
+     * @exception CourseDetailsNotFoundException
+     */
 	@ApiOperation(value = "Show Available Courses ", tags = "availablecourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "Course details not found") })
@@ -55,6 +68,18 @@ public class StudentController {
 		return ResponseEntity.of(Optional.of(list));
 	}
 
+	
+	
+	
+	 /**
+     * Method to add registered courses for student
+     *
+     * @param student_id: student id who wants to register
+     * @param semesterid: for which semserter
+     * @param courseId:   for which course
+     * @return ResponseEntity with proper status code
+     * @exception CourseAlreadyRegisteredException
+     */
 	@ApiOperation(value = "Register Course ", tags = "registercourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 409, message = "Course Already Registered") })
@@ -71,10 +96,19 @@ public class StudentController {
 		return new ResponseEntity<>("Course Registered Succesfully", HttpStatus.OK);
 	}
 
+	
+
+    /**
+     * Method to remove course from database
+     *
+     * @param courseId: student id who wants to register
+     * @return ResponseEntity with proper status code
+     * @exception CourseDetailsNotFoundException
+     */
 	@ApiOperation(value = "Remove Course ", tags = "removecourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 409, message = "Course Can't be Deleted") })
-
+	
 	@RequestMapping(value = "/removecourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity removecourse(@PathVariable long student_id, @PathVariable long course_id,
 			@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
@@ -90,7 +124,17 @@ public class StudentController {
 		logger.info("Course Deleted Succesfully");
 		return new ResponseEntity<>("Course Deleted Succesfully", HttpStatus.OK);
 	}
-
+	
+	
+	
+	/**
+     * Method to list registered courses for student
+     *
+     * @param studentId:  student id who wants to register
+     * @param semesterId: for which semserter
+     * @return ResponseEntity with proper status code
+     * @exception CourseDetailsNotFoundException
+     */
 	@ApiOperation(value = "View Registered Courses ", tags = "viewregistercourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "Course deatails not found ") })
@@ -105,6 +149,13 @@ public class StudentController {
 		return ResponseEntity.of(Optional.of(list));
 	}
 
+	
+	/**
+     * Method to show list of available course to  student from database
+     *
+     * @param ResponseEntity with proper status code
+     * @return some set  of pending payments
+     */
 	@ApiOperation(value = "Show Pending Payment List of Courses ", tags = "paymentlist")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "No courses pending for payment") })
@@ -122,7 +173,16 @@ public class StudentController {
 
 		}
 	}
+	
 
+	/**
+     * Method to make payment  for   student and add to  database
+     *
+     * @param courseId: display list for this student
+     * @param payment: display list for this student
+     * @param studentid: display list for this student
+     * @return ResponseEntity with proper status code
+     */
 	@ApiOperation(value = "Pay fee via cash ", tags = "payfeecash")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Payment Successful..!"),
 			@ApiResponse(code = 409, message = "Payment failed..!") })
@@ -142,6 +202,15 @@ public class StudentController {
 		}
 	}
 
+	
+	 /**
+     * Method to make payment  for   student and add to  database via card
+     *
+     * @param courseId: display list for this student
+     * @param payment: display list for this student
+     * @param studentId: display list for this student
+     * @return ResponseEntity with proper status code
+     */
 	@ApiOperation(value = "Pay fee via card ", tags = "payfeecard")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Payment Successful..!"),
 			@ApiResponse(code = 409, message = "Payment failed..!") })
@@ -160,7 +229,15 @@ public class StudentController {
 			return new ResponseEntity<>("Payment failed..!", HttpStatus.CONFLICT);
 		}
 	}
-
+	
+	
+	/**
+     * Method to show list of available course to  student from database
+     *
+     * @param semesterId: display list for this student
+     * @param studentId: display list for this student
+     * @return ResponseEntity with proper status code
+     */
 	@ApiOperation(value = "View Grade Card ", tags = "viewgradecard")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok|Success"),
 			@ApiResponse(code = 404, message = "No Grade Card Generated") })

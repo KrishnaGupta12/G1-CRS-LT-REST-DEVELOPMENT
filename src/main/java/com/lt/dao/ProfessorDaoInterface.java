@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * @author Professor DAO Interface with all student Methods
+ *  Professor DAO Interface with all professor Methods
  */
 public interface ProfessorDaoInterface {
 	
@@ -44,10 +44,11 @@ public interface ProfessorDaoInterface {
     public boolean addGrade(Grade grade) throws SQLException,GradeNotAddedException;
 
     /**
-     * Method to show list of students to  student from database
+     * Method to show list of courses registered for student
      *
-     * @param professor_id: professor id for which the student to be displayed
-     * @return some list  of students
+     * @param studentId: student id for which the student to be displayed
+     * @param semesterId: semester id for which the student to be displayed
+     * @return some list  of courses
      */
     public List<Courses> getListofRegCourses( long studentId,long semesterId) throws SQLException, StudentNotFoundException;
 
