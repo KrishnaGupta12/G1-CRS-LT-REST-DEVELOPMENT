@@ -18,7 +18,7 @@ public interface ProfessorInterface {
 
     public  List<Courses>  viewFullCourses(long professorId) throws  CourseNotAssignedToProfessorException,SQLException ;
 
-    public List<Student> viewRegisteredStudents(long professorId) throws SQLException, StudentNotFoundException;
+    public List<Student> viewRegisteredStudents(long professorId) throws SQLException;
     
     public boolean addGrade(Grade grade) throws SQLException,GradeNotAddedException;
 

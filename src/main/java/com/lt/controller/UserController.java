@@ -1,46 +1,40 @@
-package com.lt.client;
+package com.lt.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.validation.ValidationException;
-import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.lt.bean.Professor;
 import com.lt.bean.Roles;
 import com.lt.bean.Student;
 import com.lt.bean.User;
-import com.lt.exception.ProfessorNotFoundException;
-import com.lt.exception.RoleNotFoundException;
-import com.lt.exception.StudentAlreadyRegisteredException;
-import com.lt.exception.StudentDetailsNotFoundException;
-
-import com.lt.exception.UserNotFoundException;
 import com.lt.business.ProfessorImplService;
 import com.lt.business.StudentImplService;
-
-import com.lt.business.UserInterface;
-
-import com.lt.business.UserImplServiceInterface;
+import com.lt.business.UserImplService;
+import com.lt.exception.ProfessorNotFoundException;
+import com.lt.exception.StudentAlreadyRegisteredException;
+import com.lt.exception.UserNotFoundException;
 
 
 
 @RestController
 @RequestMapping("/user")
-public class UserRestAPI {
+public class UserController {
 
 	@Autowired
 	StudentImplService studentImplService;
 
 	@Autowired
-	UserImplServiceInterface userImplService;
+	UserImplService userImplService;
 
 	@Autowired
 	ProfessorImplService professorImplService;

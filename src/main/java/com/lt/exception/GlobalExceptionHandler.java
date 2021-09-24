@@ -54,5 +54,24 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
 	}
 	
+	@ExceptionHandler(value = CourseNotFoundException.class)
+	public ResponseEntity handleException(CourseNotFoundException e) {
+		
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+	}
+	
+	
+	@ExceptionHandler(value = CourseExistedException.class)
+	public ResponseEntity handleException(CourseExistedException e) {
+		
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(value = StudentDetailsNotFoundException.class)
+	public ResponseEntity handleException(StudentDetailsNotFoundException e) {
+		
+		return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+	}
+	
 	
 }

@@ -1,4 +1,4 @@
-package com.lt.client;
+package com.lt.controller;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,22 +20,22 @@ import com.lt.bean.GradeCard;
 import com.lt.bean.Payment;
 import com.lt.bean.RegisterCourse;
 import com.lt.business.StudentImplService;
-import com.lt.business.UserImplServiceInterface;
+import com.lt.business.UserImplService;
 import com.lt.exception.CourseAlreadyRegisteredException;
 import com.lt.exception.CourseDetailsNotFoundException;
 
 @RestController
 @RequestMapping("/Student")
 @CrossOrigin
-public class StudentRestAPI {
+public class StudentController {
 
-	private static Logger logger = Logger.getLogger(StudentRestAPI.class);
+	private static Logger logger = Logger.getLogger(StudentController.class);
 
 	@Autowired
 	StudentImplService studentImplService;
 
 	@Autowired
-	UserImplServiceInterface userImplService;
+	UserImplService userImplService;
 
 	@RequestMapping(value = "/registercourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity registerCourse(@PathVariable long student_id, @PathVariable long course_id,

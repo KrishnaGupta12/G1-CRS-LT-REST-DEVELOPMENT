@@ -136,7 +136,7 @@ public class ProfessorDaoImpl implements ProfessorDaoInterface {
 
     //List f students registered for a courses taught by the professor
     @Override
-    public List<Student> getStudentList(long professorId) throws SQLException,StudentNotFoundException {
+    public List<Student> getStudentList(long professorId) throws SQLException {
         List<Student> list = new ArrayList<Student>();
         Connection con = null;
         PreparedStatement ps = null;

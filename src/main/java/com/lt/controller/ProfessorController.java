@@ -1,4 +1,4 @@
-package com.lt.client;
+package com.lt.controller;
 
 import java.sql.SQLException;
 
@@ -22,17 +22,18 @@ import com.lt.bean.Student;
 import com.lt.business.ProfessorImplService;
 import com.lt.exception.CourseNotAssignedToProfessorException;
 import com.lt.exception.GradeNotAddedException;
+import com.lt.exception.StudentDetailsNotFoundException;
 import com.lt.exception.StudentNotFoundException;
 
 @RestController
 @RequestMapping("/professor")
 @CrossOrigin
-public class ProfessorRestAPI {
+public class ProfessorController {
 
 	@Autowired
 	ProfessorImplService professorImplService;
 
-	private static Logger logger = Logger.getLogger(ProfessorRestAPI.class);
+	private static Logger logger = Logger.getLogger(ProfessorController.class);
 
 	@RequestMapping(value = "/viewcourse/{professorId}", method = RequestMethod.GET)
 	public ResponseEntity<List<Courses>> viewCourses(@PathVariable("professorId") long professorId)
@@ -62,11 +63,11 @@ public class ProfessorRestAPI {
 
 	@RequestMapping(value = "/studentlist/{student_id}/{semesterId}", method = RequestMethod.GET)
 	public ResponseEntity showCourseList(@PathVariable("student_id") long studentId,
-			@PathVariable("semesterId") long semesterId) throws SQLException, StudentNotFoundException {
+			@PathVariable("semesterId") long semesterId) throws SQLException, StudentDetailsNotFoundException, StudentNotFoundException {
 		List<Courses> studentList = professorImplService.getListofRegCourses(studentId, semesterId);
 
 		if (studentList.size() == 0) {
-			throw new StudentNotFoundException();
+			throw new StudentDetailsNotFoundException();
 		}
 		logger.info("Student with Id " + studentId + " registered Courses");
 		return ResponseEntity.of(Optional.of(studentList));

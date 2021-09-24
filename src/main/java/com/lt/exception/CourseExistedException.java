@@ -7,5 +7,10 @@ public class CourseExistedException extends Exception{
         return "Course id  Already Existed  : "+courseId;
 
     }
+    
+    public String getMessage() {
+    	return "Course Already Existed";
+    }
+    
 
 }

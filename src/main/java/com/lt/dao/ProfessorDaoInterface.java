@@ -33,7 +33,7 @@ public interface ProfessorDaoInterface {
      * @param semesterId: semesterId list for this student
      * @return some list  of students
      */
-    public List<Student> getStudentList(long professor_id) throws SQLException,StudentNotFoundException;
+    public List<Student> getStudentList(long professor_id) throws SQLException;
 
     /**
      * Method to add grade to database

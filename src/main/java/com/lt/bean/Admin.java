@@ -2,8 +2,12 @@ package com.lt.bean;
 
 import java.util.Date;
 
-public class Admin {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Admin {
+	@Id
     private long adminId;
     private String adminName;
     private String adminEmail;
