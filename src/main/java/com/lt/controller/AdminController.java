@@ -7,6 +7,11 @@ import com.lt.bean.User;
 import com.lt.business.AdminImplService;
 import com.lt.dao.AdminDaoImpl;
 import com.lt.exception.*;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +35,9 @@ public class AdminController {
 	@Autowired
 	AdminImplService adminImplService;
 
+	@ApiOperation(value = "Add Course Details ", tags = "addCourseDetails")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Course Added"),
+			@ApiResponse(code = 409, message = "Courses Already Existed") })
 	@RequestMapping(value = "/addCourseDetails", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity addCourse(@RequestBody Courses courses) throws SQLException, CourseExistedException {
@@ -42,6 +50,9 @@ public class AdminController {
 
 	}
 
+	@ApiOperation(value = "View all Courses ", tags = "viewAllCourses")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 409, message = "Course Not Found") })
 	@RequestMapping(produces = MediaType.APPLICATION_JSON, method = RequestMethod.GET, value = "/viewAllCourses")
 	public ResponseEntity adminViewAllCourses() throws SQLException, CourseNotFoundException {
 
@@ -52,6 +63,9 @@ public class AdminController {
 		return ResponseEntity.of(Optional.of(coursesList));
 	}
 
+	@ApiOperation(value = "Remove Course ", tags = "deleteCourse")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Course Found & Deleted successfully"),
+			@ApiResponse(code = 404, message = "Course Not Found") })
 	@RequestMapping(value = "/deleteCourse/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity deletecourse(@PathVariable long course_id) throws SQLException, IOException {
 
@@ -65,6 +79,10 @@ public class AdminController {
 		return new ResponseEntity<>("Course Not Found -", HttpStatus.NOT_FOUND);
 	}
 
+	@ApiOperation(value = "Pending Approval Student List ", tags = "pendingapproval")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "No Students Pending for Approval") })
+
 	@RequestMapping(produces = MediaType.APPLICATION_JSON, method = RequestMethod.GET, value = "/pendingapproval")
 	public ResponseEntity pendingApproval() throws SQLException {
 
@@ -76,6 +94,9 @@ public class AdminController {
 		return ResponseEntity.of(Optional.of(studList));
 	}
 
+	@ApiOperation(value = " Approve Student  ", tags = "approvestudent")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Student Approved successfully"),
+			@ApiResponse(code = 404, message = "No Students Pending for Approval") })
 	@RequestMapping(value = "/approvestudent/{studentid}", method = RequestMethod.POST)
 	public ResponseEntity approveStudent(@PathVariable int studentid)
 			throws SQLException, StudentDetailsNotFoundException {
@@ -84,6 +105,9 @@ public class AdminController {
 		return new ResponseEntity<>("Student Approved successfully", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = " Generate Report Card ", tags = "generatereportcard")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Report Card Generated successfully"),
+			@ApiResponse(code = 409, message = "Report Card Not Generated") })
 	@RequestMapping(value = "/generatereportcard", method = RequestMethod.GET)
 	public ResponseEntity generateReportCard() throws SQLException {
 		boolean status = adminImplService.generateReportCard();
@@ -94,6 +118,9 @@ public class AdminController {
 
 	}
 
+	@ApiOperation(value = " Add Professor ", tags = "addprofessor")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Professor Added successfully"),
+			@ApiResponse(code = 409, message = "Professor Not Added") })
 	@RequestMapping(value = "/addprofessor", method = RequestMethod.POST)
 	public ResponseEntity addProfessor(@RequestBody Professor professor) throws SQLException {
 
