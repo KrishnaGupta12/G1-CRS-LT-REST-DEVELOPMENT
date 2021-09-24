@@ -25,6 +25,8 @@ import com.lt.business.UserImplService;
 import com.lt.exception.CourseAlreadyRegisteredException;
 import com.lt.exception.CourseDetailsNotFoundException;
 
+import io.swagger.annotations.*;
+
 @RestController
 @RequestMapping("/Student")
 @CrossOrigin
@@ -37,11 +39,14 @@ public class StudentController {
 
 	@Autowired
 	UserImplService userImplService;
-	
-	
-	
+
+	@ApiOperation(value = "Show Available Courses ", tags = "availablecourse")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "Course details not found") })
+
 	@RequestMapping(value = "/availablecourse/{semester_id}", method = RequestMethod.GET)
-	public ResponseEntity showAvailableCourses(@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
+	public ResponseEntity showAvailableCourses(@PathVariable long semester_id)
+			throws SQLException, CourseDetailsNotFoundException {
 
 		List<Courses> list = studentImplService.showAvailableCourses(semester_id);
 		if (list.size() == 0) {
@@ -49,6 +54,10 @@ public class StudentController {
 		}
 		return ResponseEntity.of(Optional.of(list));
 	}
+
+	@ApiOperation(value = "Register Course ", tags = "registercourse")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 409, message = "Course Already Registered") })
 
 	@RequestMapping(value = "/registercourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity registerCourse(@PathVariable long student_id, @PathVariable long course_id,
@@ -61,6 +70,10 @@ public class StudentController {
 		logger.info("Course Registered Succesfully");
 		return new ResponseEntity<>("Course Registered Succesfully", HttpStatus.OK);
 	}
+
+	@ApiOperation(value = "Remove Course ", tags = "removecourse")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 409, message = "Course Can't be Deleted") })
 
 	@RequestMapping(value = "/removecourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity removecourse(@PathVariable long student_id, @PathVariable long course_id,
@@ -78,6 +91,9 @@ public class StudentController {
 		return new ResponseEntity<>("Course Deleted Succesfully", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "View Registered Courses ", tags = "viewregistercourse")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "Course deatails not found ") })
 	@RequestMapping(value = "/viewregistercourse/{student_id}/{semester_id}", method = RequestMethod.GET)
 	public ResponseEntity<Set<RegisterCourse>> viewRegisteredCourse(@PathVariable long student_id,
 			@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
@@ -89,6 +105,10 @@ public class StudentController {
 		return ResponseEntity.of(Optional.of(list));
 	}
 
+	@ApiOperation(value = "Show Pending Payment List of Courses ", tags = "paymentlist")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "No courses pending for payment") })
+
 	@RequestMapping(value = "/paymentlist/{student_id}", method = RequestMethod.GET)
 	public ResponseEntity showPaymentList(@PathVariable long student_id) throws SQLException {
 
@@ -96,12 +116,16 @@ public class StudentController {
 
 		if (pendingPaymentList.size() == 0) {
 			logger.info("No courses pending for payment");
-			return new ResponseEntity<>("No courses pending for payment", HttpStatus.OK);
+			return new ResponseEntity<>("No courses pending for payment", HttpStatus.NOT_FOUND);
 		} else {
 			return ResponseEntity.of(Optional.of(pendingPaymentList));
 
 		}
 	}
+
+	@ApiOperation(value = "Pay fee via cash ", tags = "payfeecash")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Payment Successful..!"),
+			@ApiResponse(code = 409, message = "Payment failed..!") })
 
 	@RequestMapping(value = "/payfeecash/{student_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity payFeeCash(@PathVariable long student_id, @PathVariable long course_id,
@@ -118,6 +142,10 @@ public class StudentController {
 		}
 	}
 
+	@ApiOperation(value = "Pay fee via card ", tags = "payfeecard")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Payment Successful..!"),
+			@ApiResponse(code = 409, message = "Payment failed..!") })
+
 	@RequestMapping(value = "/payfeecard/{student_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity payFeeCard(@PathVariable long student_id, @PathVariable long course_id,
 			@RequestBody Payment payment) throws SQLException {
@@ -133,6 +161,10 @@ public class StudentController {
 		}
 	}
 
+	@ApiOperation(value = "View Grade Card ", tags = "viewgradecard")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok|Success"),
+			@ApiResponse(code = 404, message = "No Grade Card Generated") })
+
 	@RequestMapping(value = "/viewgradecard/{student_id}/{semester_id}", method = RequestMethod.GET)
 	public ResponseEntity viewGradeCard(@PathVariable long student_id, @PathVariable long semester_id)
 			throws SQLException {
@@ -141,7 +173,7 @@ public class StudentController {
 
 		if (viewGradeCard.size() == 0) {
 			logger.info("No Grade Card Generated");
-			return new ResponseEntity<>("No Grade Card Generated", HttpStatus.OK);
+			return new ResponseEntity<>("No Grade Card Generated", HttpStatus.NOT_FOUND);
 		} else {
 			return ResponseEntity.of(Optional.of(viewGradeCard));
 

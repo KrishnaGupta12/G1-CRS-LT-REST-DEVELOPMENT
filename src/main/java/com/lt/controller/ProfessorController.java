@@ -20,10 +20,15 @@ import com.lt.bean.Courses;
 import com.lt.bean.Grade;
 import com.lt.bean.Student;
 import com.lt.business.ProfessorImplService;
+import com.lt.exception.CourseDetailsNotFoundException;
 import com.lt.exception.CourseNotAssignedToProfessorException;
 import com.lt.exception.GradeNotAddedException;
 import com.lt.exception.StudentDetailsNotFoundException;
 import com.lt.exception.StudentNotFoundException;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/professor")
@@ -35,10 +40,13 @@ public class ProfessorController {
 
 	private static Logger logger = Logger.getLogger(ProfessorController.class);
 
+	@ApiOperation(value = " View Assigned Courses ", tags = "viewcourse")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 409, message = "Course not assigned to Professor ") })
+
 	@RequestMapping(value = "/viewcourse/{professorId}", method = RequestMethod.GET)
 	public ResponseEntity<List<Courses>> viewCourses(@PathVariable("professorId") long professorId)
 			throws SQLException, CourseNotAssignedToProfessorException {
-		System.out.println("Inside Professor Controller: view course");
 		List<Courses> list = professorImplService.viewFullCourses(professorId);
 
 		if (list.size() == 0) {
@@ -48,6 +56,9 @@ public class ProfessorController {
 		return ResponseEntity.of(Optional.of(list));
 	}
 
+	@ApiOperation(value = " View Registered Students under Professor ", tags = "viewregisteredtudents")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "No registered students found  ..! ") })
 	@RequestMapping(value = "/viewregisteredtudents/{professorId}", method = RequestMethod.GET)
 
 	public ResponseEntity<List<Student>> viewRegisterStudents(@PathVariable("professorId") long professorId)
@@ -61,18 +72,25 @@ public class ProfessorController {
 		return ResponseEntity.of(Optional.of(list));
 	}
 
-	@RequestMapping(value = "/studentlist/{student_id}/{semesterId}", method = RequestMethod.GET)
+	@ApiOperation(value = " Course List for student ", tags = "courselist")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "Course not found  ..! ") })
+	@RequestMapping(value = "/courselist/{student_id}/{semesterId}", method = RequestMethod.GET)
 	public ResponseEntity showCourseList(@PathVariable("student_id") long studentId,
-			@PathVariable("semesterId") long semesterId) throws SQLException, StudentDetailsNotFoundException, StudentNotFoundException {
+			@PathVariable("semesterId") long semesterId)
+			throws SQLException, CourseDetailsNotFoundException, StudentNotFoundException {
 		List<Courses> studentList = professorImplService.getListofRegCourses(studentId, semesterId);
 
 		if (studentList.size() == 0) {
-			throw new StudentDetailsNotFoundException();
+			throw new CourseDetailsNotFoundException();
 		}
 		logger.info("Student with Id " + studentId + " registered Courses");
 		return ResponseEntity.of(Optional.of(studentList));
 	}
 
+	@ApiOperation(value = " Add Grade ", tags = "addgrade")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Grade added Successfully..!"),
+			@ApiResponse(code = 409, message = "  Grade can't be added..! ") })
 	@RequestMapping(value = "/addgrade", method = RequestMethod.POST)
 	public ResponseEntity addgrade(@RequestBody Grade grade) throws SQLException, GradeNotAddedException {
 		boolean gradeFlag = professorImplService.addGrade(grade);

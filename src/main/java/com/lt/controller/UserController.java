@@ -24,7 +24,9 @@ import com.lt.exception.ProfessorNotFoundException;
 import com.lt.exception.StudentAlreadyRegisteredException;
 import com.lt.exception.UserNotFoundException;
 
-
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/user")
@@ -39,42 +41,49 @@ public class UserController {
 	@Autowired
 	ProfessorImplService professorImplService;
 
+	@ApiOperation(value = " User Login ", tags = "login")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
+			@ApiResponse(code = 404, message = "Course not assigned to Professor ") })
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 
 	public ResponseEntity verifyCredentials(@RequestBody User user)
 			throws ValidationException, SQLException, UserNotFoundException, IOException, ProfessorNotFoundException {
 
-			int roleId = userImplService.login(user.getUserName(),user.getUserPassword());
-			Roles role = userImplService.getRoleDetails(roleId);
-			
-			if (roleId == 0){
-				throw new UserNotFoundException();
+		int roleId = userImplService.login(user.getUserName(), user.getUserPassword());
+		Roles role = userImplService.getRoleDetails(roleId);
+
+		if (roleId == 0) {
+			throw new UserNotFoundException();
+		} else {
+			switch (roleId) {
+			case 1:
+				Student stud = studentImplService.getStudent(user.getUserName());
+				return new ResponseEntity<>("Student Login Succesful", HttpStatus.OK);
+
+			case 2:
+				Professor pr = professorImplService.getProfessorId(user.getUserName());
+				return new ResponseEntity<>("Professor Login Succesful", HttpStatus.OK);
+
+			case 3:
+				return new ResponseEntity<>("Admin Login Succesful", HttpStatus.OK);
 			}
-			else {
-				switch (roleId) {
-				case 1:
-					Student stud = studentImplService.getStudent(user.getUserName());
-					return new ResponseEntity<>("Student Login Succesful", HttpStatus.OK);
+			return new ResponseEntity<>("Invalid User ...", HttpStatus.CONFLICT);
+		}
 
-				case 2:
-					Professor pr = professorImplService.getProfessorId(user.getUserName());
-					return new ResponseEntity<>("Professor Login Succesful", HttpStatus.OK);
-
-				case 3:
-					return new ResponseEntity<>("Admin Login Succesful", HttpStatus.OK);
-				}
-				return new ResponseEntity<>("Invalid User ...", HttpStatus.CONFLICT);
-			} 
- 
 	}
 
-	@RequestMapping(value = "/signup",method = RequestMethod.POST)
-	public ResponseEntity signUp(@RequestBody Student student) throws SQLException, StudentAlreadyRegisteredException{
-     boolean flagStudentSignUp = studentImplService.signUp(student);
-     if (flagStudentSignUp) {
-         return new ResponseEntity<>("SignUp SuccessFul..!", HttpStatus.OK);
-     } else {
-         throw new StudentAlreadyRegisteredException();
-     }
- }
+	@ApiOperation(value = " Student Sign Up ", tags = "signup")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "SignUp SuccessFul..!"),
+			@ApiResponse(code = 404, message = "Student Already Registered") })
+
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ResponseEntity signUp(@RequestBody Student student) throws SQLException, StudentAlreadyRegisteredException {
+		boolean flagStudentSignUp = studentImplService.signUp(student);
+		if (flagStudentSignUp) {
+			return new ResponseEntity<>("SignUp SuccessFul..!", HttpStatus.OK);
+		} else {
+			throw new StudentAlreadyRegisteredException();
+		}
+	}
 }
