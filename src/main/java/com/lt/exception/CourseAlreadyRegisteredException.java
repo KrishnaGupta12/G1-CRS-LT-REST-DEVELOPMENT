@@ -11,8 +11,6 @@ public class CourseAlreadyRegisteredException extends Exception {
 
     }
 
-
-
     /**
      * Message returned when exception is thrown
      */

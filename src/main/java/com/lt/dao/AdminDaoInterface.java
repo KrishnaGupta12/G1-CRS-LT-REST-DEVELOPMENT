@@ -47,18 +47,18 @@ public interface AdminDaoInterface {
     /**
      * Method to add course to database
      *
-     * @param course: Course for which display list of students
+     * @param course : Course for which display list of students
      * @return void and print message
      */
-    public void addCourse(Courses course) throws SQLException, CourseExistedException, CourseExistedException;
+    public boolean addCourse(Courses course) throws SQLException, CourseExistedException, CourseExistedException;
 
     /**
      * Method to delete course to database
      *
-     * @param courseId: Course for which display list of students
+     * @param courseId : Course for which display list of students
      * @return void and print message
      */
-    public void deleteCourse(long courseId,List<Courses> coursesList) throws IOException, SQLException;
+    public boolean deleteCourse(long courseId, List<Courses> coursesList) throws IOException, SQLException;
 
     /**
      * Method to show list of available course to  admin from database

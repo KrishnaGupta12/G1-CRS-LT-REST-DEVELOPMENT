@@ -8,13 +8,16 @@ import com.lt.dao.AdminDaoInterface;
 import com.lt.exception.CourseExistedException;
 import com.lt.exception.StudentDetailsNotFoundException;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class AdminImplService  implements AdminDaoInterface {
     private static Logger logger = Logger.getLogger(AdminImplService.class);
+
     AdminDaoImpl adminDao = AdminDaoImpl.getInstance();
     boolean flag = false;
 
@@ -44,7 +47,7 @@ public class AdminImplService  implements AdminDaoInterface {
     }
 
     @Override
-    public void addCourse(Courses course) throws SQLException {
+    public boolean addCourse(Courses course) throws SQLException {
        try{
            adminDao.addCourse(course);
        }catch (CourseExistedException e)
@@ -52,13 +55,15 @@ public class AdminImplService  implements AdminDaoInterface {
            logger.error(e.getMsg(course.getCourseId()));
        }
 
+        return false;
     }
 
     @Override
-    public void deleteCourse(long courseId,List<Courses> coursesList) throws IOException, SQLException {
+    public boolean deleteCourse(long courseId, List<Courses> coursesList) throws IOException, SQLException {
         adminDao.deleteCourse(courseId,coursesList);
 
 
+        return false;
     }
 
 
@@ -71,8 +76,19 @@ public class AdminImplService  implements AdminDaoInterface {
     }
 
 
+    public boolean checkId(long course_id, List<Courses> list) {
+
+        for (Courses c :list) {
+            if(c.getCourseId() == course_id)
+                return true;
+        }
+        return false;
+    }
+
+    }
 
 
 
 
-}
+
+

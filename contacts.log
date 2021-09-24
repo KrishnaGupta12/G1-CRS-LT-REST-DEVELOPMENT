@@ -1,0 +1,39 @@
+02:42:09,892 ERROR AdminDaoImpl,http-nio-8082-exec-1:239 -  Sorry Course Not Found !!!   :
+02:42:12,712 ERROR AdminDaoImpl,http-nio-8082-exec-2:239 -  Sorry Course Not Found !!!   :
+02:45:30,283 ERROR AdminDaoImpl,http-nio-8082-exec-1:239 -  Sorry Course Not Found !!!   :
+04:22:19,708 ERROR AdminDaoImpl,http-nio-8082-exec-5:211 - Course id  Already Existed  : 25156
+04:25:18,751 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 25874
+04:34:54,652 ERROR AdminDaoImpl,http-nio-8082-exec-5:211 - Course id  Already Existed  : 123654
+04:34:57,426 ERROR AdminDaoImpl,http-nio-8082-exec-6:211 - Course id  Already Existed  : 123654
+04:34:58,528 ERROR AdminDaoImpl,http-nio-8082-exec-8:211 - Course id  Already Existed  : 123654
+04:36:09,380 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 123654
+04:38:51,934 ERROR AdminDaoImpl,http-nio-8082-exec-5:211 - Course id  Already Existed  : 2546
+04:42:33,730 ERROR AdminDaoImpl,http-nio-8082-exec-7:211 - Course id  Already Existed  : 2546
+04:42:34,969 ERROR AdminDaoImpl,http-nio-8082-exec-8:211 - Course id  Already Existed  : 2546
+04:44:15,019 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 246
+04:44:15,019 ERROR StudentRestAPI,http-nio-8082-exec-1:43 - You have already registered for this course.
+04:44:27,339 ERROR AdminDaoImpl,http-nio-8082-exec-3:211 - Course id  Already Existed  : 246
+04:44:27,339 ERROR StudentRestAPI,http-nio-8082-exec-3:43 - You have already registered for this course.
+04:44:30,261 ERROR AdminDaoImpl,http-nio-8082-exec-5:211 - Course id  Already Existed  : 246
+04:44:30,261 ERROR StudentRestAPI,http-nio-8082-exec-5:43 - You have already registered for this course.
+04:45:32,368 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 246
+04:45:32,368 ERROR StudentRestAPI,http-nio-8082-exec-1:43 - You have already registered for this course.
+04:46:36,653 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 246
+04:49:03,616 ERROR StudentRestAPI,http-nio-8082-exec-1:43 - You have already registered for this course.
+04:51:28,897 ERROR AdminDaoImpl,http-nio-8082-exec-2:211 - Course id  Already Existed  : 246
+04:51:28,897 ERROR StudentRestAPI,http-nio-8082-exec-2:43 - You have already registered for this course.
+04:56:14,778 ERROR AdminDaoImpl,http-nio-8082-exec-4:211 - Course id  Already Existed  : 246
+04:56:14,778 ERROR StudentRestAPI,http-nio-8082-exec-4:43 - You have already registered for this course.
+04:56:19,442 ERROR AdminDaoImpl,http-nio-8082-exec-6:211 - Course id  Already Existed  : 246
+04:56:19,450 ERROR StudentRestAPI,http-nio-8082-exec-6:43 - You have already registered for this course.
+04:59:18,401 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 246
+04:59:18,408 ERROR StudentRestAPI,http-nio-8082-exec-1:44 - You have already registered for this course.
+05:04:19,383 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  : 246
+05:08:51,063 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  !!: 246
+05:21:53,343 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  !!: 246
+05:21:58,320 ERROR AdminDaoImpl,http-nio-8082-exec-2:211 - Course id  Already Existed  !!: 246
+05:22:22,229 ERROR AdminDaoImpl,http-nio-8082-exec-3:211 - Course id  Already Existed  !!: 246
+05:23:10,659 ERROR AdminDaoImpl,http-nio-8082-exec-1:211 - Course id  Already Existed  !!: 246
+05:28:19,058 ERROR AdminDaoImpl,http-nio-8082-exec-3:211 - Course id  Already Existed  !!: 246
+05:28:20,736 ERROR AdminDaoImpl,http-nio-8082-exec-5:211 - Course id  Already Existed  !!: 246
+05:28:21,704 ERROR AdminDaoImpl,http-nio-8082-exec-6:211 - Course id  Already Existed  !!: 246

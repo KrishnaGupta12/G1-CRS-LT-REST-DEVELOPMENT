@@ -18,7 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class AdminDaoImpl implements AdminDaoInterface {
 
     private final static Logger logger = Logger.getLogger(AdminDaoImpl.class);
@@ -181,7 +181,7 @@ public class AdminDaoImpl implements AdminDaoInterface {
 
 
     @Override
-    public void addCourse(Courses course) throws SQLException, CourseExistedException {
+    public boolean addCourse(Courses course) throws SQLException, CourseExistedException {
         try {
             List<Courses> courseList = adminViewAllCourses();
             if(checkId(course.getCourseId(),courseList)){
@@ -213,10 +213,11 @@ public class AdminDaoImpl implements AdminDaoInterface {
         }
 
 
+        return false;
     }
 
     @Override
-    public void deleteCourse(long courseId,List<Courses> coursesList) throws SQLException {
+    public boolean deleteCourse(long courseId, List<Courses> coursesList) throws SQLException {
         try {
             if (!checkId(courseId, coursesList)) {
                 throw new CourseDetailsNotFoundException();
@@ -239,6 +240,7 @@ public class AdminDaoImpl implements AdminDaoInterface {
             logger.error(e.getMsg());
 
         }
+        return false;
     }
 
     public boolean checkId(long id,List<Courses> list ){
