@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lt.bean.Courses;
 import com.lt.bean.GradeCard;
 import com.lt.bean.Payment;
 import com.lt.bean.RegisterCourse;
@@ -36,6 +37,18 @@ public class StudentController {
 
 	@Autowired
 	UserImplService userImplService;
+	
+	
+	
+	@RequestMapping(value = "/availablecourse/{semester_id}", method = RequestMethod.GET)
+	public ResponseEntity showAvailableCourses(@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
+
+		List<Courses> list = studentImplService.showAvailableCourses(semester_id);
+		if (list.size() == 0) {
+			throw new CourseDetailsNotFoundException();
+		}
+		return ResponseEntity.of(Optional.of(list));
+	}
 
 	@RequestMapping(value = "/registercourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity registerCourse(@PathVariable long student_id, @PathVariable long course_id,
