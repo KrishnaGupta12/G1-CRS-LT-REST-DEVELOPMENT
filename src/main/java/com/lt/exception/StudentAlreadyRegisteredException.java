@@ -9,5 +9,11 @@ public class StudentAlreadyRegisteredException extends Exception {
 		 return "Student ID Already Registered ::"+studentID;
 		 
 	 }
+	 
+ public String getMessage() {
+		 
+		 return "Student Already Registered";
+		 
+	 }
 
 }

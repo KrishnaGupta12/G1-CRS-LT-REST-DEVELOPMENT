@@ -37,7 +37,6 @@ public class ProfessorImplService implements ProfessorInterface {
 
 	@Override
 	public boolean addGrade(Grade grade) throws SQLException, GradeNotAddedException {
-		ProfessorDaoImpl pdo = new ProfessorDaoImpl();
 		flag = pdo.addGrade(grade);
 		return flag;
 	}
@@ -45,13 +44,12 @@ public class ProfessorImplService implements ProfessorInterface {
 	@Override
 	public List<Courses> getListofRegCourses(long studentId, long semesterId)
 			throws SQLException, StudentNotFoundException {
-		ProfessorDaoImpl pdo = new ProfessorDaoImpl();
 		List<Courses> studentList = pdo.getListofRegCourses(studentId, semesterId);
 		return studentList;
 	}
 
 	@Override
-	public List<Student> viewRegisteredStudents(long professorId) throws SQLException, StudentNotFoundException {
+	public List<Student> viewRegisteredStudents(long professorId) throws SQLException {
 		List<Student> studentList = pdo.getStudentList(professorId);
 
 		return studentList;

@@ -38,7 +38,15 @@ public class Student  {
         this.studentName = stude_name;
     }
 
-    public long getStudentId() {
+    public Student(long studId, String studName, String studEmail, String studPassword) {
+		// TODO Auto-generated constructor stub
+    	 this.studentId =studId;
+         this.studentName = studName;
+         this.studentEmail = studEmail;
+         this.passWord = studPassword;
+	}
+
+	public long getStudentId() {
         return studentId;
     }
 

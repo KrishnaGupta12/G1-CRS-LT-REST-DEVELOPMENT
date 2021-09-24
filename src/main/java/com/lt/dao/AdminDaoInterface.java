@@ -18,7 +18,7 @@ public interface AdminDaoInterface {
      * @param professor:   for which course
      * @return void and print message
      */
-    public void addProfessor(Professor professor) throws SQLException;
+    public boolean addProfessor(Professor professor) throws SQLException;
 
     /**
      * Method to add student after approval to database
@@ -26,7 +26,7 @@ public interface AdminDaoInterface {
      * @param studentId:   for which course
      * @return void and print message
      */
-    public void approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException;
+    public boolean approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException;
 
 
     /**
@@ -42,7 +42,7 @@ public interface AdminDaoInterface {
      *
      * @return void and print message
      */
-    public void generateReportCard() throws SQLException;
+    public boolean generateReportCard() throws SQLException;
 
     /**
      * Method to add course to database
@@ -50,7 +50,7 @@ public interface AdminDaoInterface {
      * @param course: Course for which display list of students
      * @return void and print message
      */
-    public void addCourse(Courses course) throws SQLException, CourseExistedException, CourseExistedException;
+    public boolean addCourse(Courses course) throws SQLException, CourseExistedException, CourseExistedException;
 
     /**
      * Method to delete course to database
@@ -58,7 +58,7 @@ public interface AdminDaoInterface {
      * @param courseId: Course for which display list of students
      * @return void and print message
      */
-    public void deleteCourse(long courseId,List<Courses> coursesList) throws IOException, SQLException;
+    public boolean deleteCourse(long courseId,List<Courses> coursesList) throws IOException, SQLException;
 
     /**
      * Method to show list of available course to  admin from database

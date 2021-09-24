@@ -8,26 +8,32 @@ import com.lt.dao.AdminDaoInterface;
 import com.lt.exception.CourseExistedException;
 import com.lt.exception.StudentDetailsNotFoundException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
+@Component
 public class AdminImplService  implements AdminDaoInterface {
     private static Logger logger = Logger.getLogger(AdminImplService.class);
-    AdminDaoImpl adminDao = AdminDaoImpl.getInstance();
+    
+    @Autowired
+    AdminDaoImpl adminDao ;
     boolean flag = false;
 
 
     @Override
-    public void addProfessor(Professor professor) throws SQLException {
-        adminDao.addProfessor(professor);
+    public boolean addProfessor(Professor professor) throws SQLException {
+        flag = adminDao.addProfessor(professor);
+        return flag;
 
     }
 
     @Override
-    public void approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException {
-    adminDao.approveStudent(studentId);
+    public boolean approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException {
+    flag = adminDao.approveStudent(studentId);
+    return flag;
     }
 
     @Override
@@ -38,26 +44,26 @@ public class AdminImplService  implements AdminDaoInterface {
     }
 
     @Override
-    public void generateReportCard() throws SQLException{
-        adminDao.generateReportCard();
+    public boolean generateReportCard() throws SQLException{
+        flag = adminDao.generateReportCard();
+        return flag;
 
     }
 
     @Override
-    public void addCourse(Courses course) throws SQLException {
-       try{
-           adminDao.addCourse(course);
-       }catch (CourseExistedException e)
-       {
-           logger.error(e.getMsg(course.getCourseId()));
-       }
+    public boolean addCourse(Courses course) throws SQLException, CourseExistedException {
+       
+          flag = adminDao.addCourse(course);
+          return flag;
+       
+       
 
     }
 
     @Override
-    public void deleteCourse(long courseId,List<Courses> coursesList) throws IOException, SQLException {
-        adminDao.deleteCourse(courseId,coursesList);
-
+    public boolean deleteCourse(long courseId,List<Courses> coursesList) throws IOException, SQLException {
+    	flag =adminDao.deleteCourse(courseId,coursesList);
+    	return flag;
 
     }
 

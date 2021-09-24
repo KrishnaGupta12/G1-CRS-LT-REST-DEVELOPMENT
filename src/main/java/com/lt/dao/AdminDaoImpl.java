@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class AdminDaoImpl implements AdminDaoInterface {
 
     private final static Logger logger = Logger.getLogger(AdminDaoImpl.class);
@@ -40,7 +41,7 @@ public class AdminDaoImpl implements AdminDaoInterface {
     PreparedStatement statement = null;
 
     @Override
-    public void addProfessor(Professor professor) throws SQLException {
+    public boolean addProfessor(Professor professor) throws SQLException {
         try {
 
             // long id = professor.getProfessorId();
@@ -66,6 +67,7 @@ public class AdminDaoImpl implements AdminDaoInterface {
                 statement.setInt(3, 2);
                 if (statement.executeUpdate() != 0) {
                     System.out.println("Professor added successfully..!");
+                    return true;
                 } else {
                     System.out.println("Data not added..!");
                 }
@@ -73,11 +75,12 @@ public class AdminDaoImpl implements AdminDaoInterface {
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
+		return false;
 
     }
 
     @Override
-    public void approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException {
+    public boolean approveStudent(int studentId) throws SQLException, StudentDetailsNotFoundException {
 
         try {
             List<Student> list = showListOfPendingStudent();
@@ -112,13 +115,14 @@ public class AdminDaoImpl implements AdminDaoInterface {
             logger.error(e.getMessage());
 
         }
+		return false;
     }
 
     @Override
     public List<Student> showListOfPendingStudent() throws SQLException {
         List<Student> pendingList = new ArrayList<Student>();
 
-        try {
+      //  try {
 
             statement = con.prepareStatement(SqlConstants.UNAPPROVE_STUDENT);
             ResultSet rs = statement.executeQuery();
@@ -132,20 +136,22 @@ public class AdminDaoImpl implements AdminDaoInterface {
                 std.setStudentName(studName);
                 std.setStudentEmail(studEmail);
                 std.setPassWord(studPassword);
-                pendingList.add(std);
+                
+                Student std1 = new Student(studId,studName,studEmail,studPassword);
+                pendingList.add(std1);
             }
-            if (pendingList.isEmpty()) {
-                throw new StudentDetailsNotFoundException();
-            }
-        } catch (StudentDetailsNotFoundException e) {
-            logger.error(e.getMsg());
-        }
+//            if (pendingList.isEmpty()) {
+//                throw new StudentDetailsNotFoundException();
+//            }
+//        } catch (StudentDetailsNotFoundException e) {
+//            logger.error(e.getMsg());
+//        }
         return pendingList;
     }
 
 
     @Override
-    public void generateReportCard() throws SQLException {
+    public boolean generateReportCard() throws SQLException {
         statement = con.prepareStatement(SqlConstants.GENERATE_REPORT_CARD);
         List<GradeCard> studentList = new ArrayList<GradeCard>();
         ResultSet rs = statement.executeQuery();
@@ -174,14 +180,17 @@ public class AdminDaoImpl implements AdminDaoInterface {
             statement.setString(6, grade.getGrade());
             flag = statement.executeUpdate();
         }
-        if (flag != 0)
+        if (flag != 0) {
             System.out.println("Report card generated");
+        return true;    
+        }
+		return false;
 
     }
 
 
     @Override
-    public void addCourse(Courses course) throws SQLException, CourseExistedException {
+    public boolean addCourse(Courses course) throws SQLException, CourseExistedException {
         try {
             List<Courses> courseList = adminViewAllCourses();
             if(checkId(course.getCourseId(),courseList)){
@@ -197,26 +206,27 @@ public class AdminDaoImpl implements AdminDaoInterface {
             statement.setLong(7, course.getCourseSemesterId());
             statement.setLong(8, course.getProfessorId());
             int updateStatus = statement.executeUpdate();
-            if (updateStatus == 0)
-                System.out.println(" Record not updated...try again !!");
-            else {
-                statement = con.prepareStatement(SqlConstants.INSERT_COURSE_CATALOG);
+            if (updateStatus!= 0) {
+            	statement = con.prepareStatement(SqlConstants.INSERT_COURSE_CATALOG);
                 statement.setLong(1, course.getCourseId());
                 statement.setString(2, "true");
-                int update = statement.executeUpdate();
-                if (update != 0)
-                    System.out.println(" Record successfully updated ...!!");
-            }
-        } catch (CourseExistedException e) {
+                System.out.println(" Record successfully updated ...!!");
+                return true;
+            } 
+        
+        }
+        catch (CourseExistedException e) {
             logger.error(e.getMsg(course.getCourseId()));
 
         }
+        System.out.println(" Record not updated...try again !!");
+		return false;
 
 
     }
 
     @Override
-    public void deleteCourse(long courseId,List<Courses> coursesList) throws SQLException {
+    public boolean deleteCourse(long courseId,List<Courses> coursesList) throws SQLException {
         try {
             if (!checkId(courseId, coursesList)) {
                 throw new CourseDetailsNotFoundException();
@@ -239,6 +249,7 @@ public class AdminDaoImpl implements AdminDaoInterface {
             logger.error(e.getMsg());
 
         }
+		return false;
     }
 
     public boolean checkId(long id,List<Courses> list ){

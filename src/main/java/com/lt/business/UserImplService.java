@@ -22,36 +22,19 @@ import java.sql.SQLException;
  * @author User Implementation with DAO Layer
  */
 @Component
-public class UserImplServiceInterface {
+public class UserImplService {
 
-    private static Logger logger = Logger.getLogger(UserImplServiceInterface.class);
+	private static Logger logger = Logger.getLogger(UserImplService.class);
 
-    //    @Override
-//    public void getUserName() {
-//
-//    }
-//
-//    @Override
-//    public void gatPassword() {
-//
-//    }
-    @Autowired
-    UserDaoImpl userDao;
-    //UserDaoImpl userDao = UserDaoImpl.getInstance();
+	@Autowired
+	UserDaoImpl userDao;
 
+	public int login(String username, String password) throws SQLException, UserNotFoundException {
+		return userDao.login(username, password);
+	}
 
-    public int login(String username, String password) throws SQLException, UserNotFoundException {
-        return userDao.login(username, password);
-    }
+	public Roles getRoleDetails(int role) throws SQLException, IOException {
+		return userDao.getRoleDetails(role);
+	}
 
-
-
-//    public void getUserMenu(int role, String userName) throws SQLException, IOException {
-//       userDao.getUserMenu(role,userName);
-//    }
-    
-    public Roles getRoleDetails(int role) throws SQLException, IOException {
-        return userDao.getRoleDetails(role);
-     }
-    
 }
