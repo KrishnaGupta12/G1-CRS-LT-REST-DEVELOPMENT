@@ -29,8 +29,8 @@ public interface SqlConstants {
     //public final static String PENDING_PAYMENT_LIST = "select c.course_id,c.course_name,c.course_fee, c.course_duration,c.course_type,c.course_details,r.payment_status from Course c INNER JOIN RegisterCourses r ON c.course_id IN ( Select reg_course_id from RegisterCourses where payment_status = 'pending' )";
     public final static String PENDING_PAYMENT_LIST = "select c.course_id,c.course_name,c.course_fee, c.course_duration,c.course_type,c.course_details,r.payment_status,r.reg_stud_id from Course c INNER JOIN RegisterCourses r ON c.course_id = r.reg_course_id ";
     public final static String UPDATE_PAYMENT_STATUS = "Update RegisterCourses set payment_status='Success' where reg_course_id = ? and reg_stud_id =?";
-    public final static String INSERT_PAYMENT_STATUS = "insert into payment(bill_mode,bill_amount,course_id,stud_id,transaction_id) values (?,?,?,?,?)";
-    public final static String INSERT_PAYMENT_STATUS_VIA_CARD= "insert into payment values (?,?,?,?,?,?,?)";
+    public final static String INSERT_PAYMENT_STATUS = "insert into payment(bill_mode,bill_amount,course_id,stud_id,transaction_id) values (?,?,?,?,(select max(transaction_id) from payment p) + 1)";
+    public final static String INSERT_PAYMENT_STATUS_VIA_CARD= "insert into payment values (?,?,?,?,?,?,(select max(transaction_id) from payment p) + 1)";
     public final static String GENERATE_REPORT_CARD = "Select s.stud_id,s.stud_name,g.courseId,g.courseName,g.semesterId,g.grade from Student s INNER JOIN Grade g On stud_id  = studentId";
     public final static String INSERT_GRADE_CARD = "insert into GradeCard values (?,?,?,?,?,?)";
 

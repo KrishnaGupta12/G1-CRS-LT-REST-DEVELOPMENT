@@ -222,7 +222,7 @@ public class StudentDaoImpl implements StudentDaoInterface {
         smt.setDouble(2, payment.getBillingAmount());
         smt.setInt(3, (int) courseId);
         smt.setInt(4, (int) studentId);
-        smt.setInt(5, (int) payment.getTransactionId());
+       // smt.setInt(5, (int) payment.getTransactionId());
 
         if (smt.executeUpdate() != 0) {
             smt = con.prepareStatement(SqlConstants.UPDATE_PAYMENT_STATUS);
@@ -264,7 +264,7 @@ public class StudentDaoImpl implements StudentDaoInterface {
         smt.setString(4, payment.getCard_expiry());
         smt.setInt(5, (int) courseId);
         smt.setInt(6, (int) studentId);
-        smt.setInt(7, (int) payment.getTransactionId());
+        //smt.setInt(7, (int) payment.getTransactionId());
 
         if (smt.executeUpdate() != 0) {
             smt = con.prepareStatement(SqlConstants.UPDATE_PAYMENT_STATUS);
