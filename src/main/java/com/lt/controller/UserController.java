@@ -2,12 +2,15 @@ package com.lt.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +35,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
 	@Autowired
@@ -42,6 +46,7 @@ public class UserController {
 
 	@Autowired
 	ProfessorImplService professorImplService;
+	Map<String,String> response = new HashMap<>();
 	
 /**
    * Method to login user
@@ -65,12 +70,21 @@ public class UserController {
 		} else {
 			switch (roleId) {
 			case 1:
+				
 				Student stud = studentImplService.getStudent(user.getUserName());
-				return new ResponseEntity<>("Student Login Succesful", HttpStatus.OK);
+				response.put("id", String.valueOf(stud.getStudentId()));
+				response.put("userType","student");
+				//responseEntity = new ResponseEntity();
+				//return (ResponseEntity) response;
+				return new ResponseEntity<>(response, HttpStatus.OK);
 
 			case 2:
 				Professor pr = professorImplService.getProfessorId(user.getUserName());
-				return new ResponseEntity<>("Professor Login Succesful", HttpStatus.OK);
+				response.put("id", String.valueOf(pr.getProfessorId()));
+				response.put("userType","professor");
+				
+				//return new ResponseEntity<>("Professor Login Succesful", HttpStatus.OK);
+				return new ResponseEntity<>(response, HttpStatus.OK);
 
 			case 3:
 				return new ResponseEntity<>("Admin Login Succesful", HttpStatus.OK);

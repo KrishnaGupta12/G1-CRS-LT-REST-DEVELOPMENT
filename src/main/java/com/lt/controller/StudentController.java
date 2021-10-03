@@ -1,9 +1,13 @@
 package com.lt.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,7 @@ public class StudentController {
 
 	@Autowired
 	UserImplService userImplService;
+	
 
 	
 	/**
@@ -57,7 +62,7 @@ public class StudentController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "Course details not found") })
 
-	@RequestMapping(value = "/availablecourse/{semester_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/availablecourse/{semester_id}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity showAvailableCourses(@PathVariable long semester_id)
 			throws SQLException, CourseDetailsNotFoundException {
 
@@ -84,16 +89,18 @@ public class StudentController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 409, message = "Course Already Registered") })
 
-	@RequestMapping(value = "/registercourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/registercourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity registerCourse(@PathVariable long student_id, @PathVariable long course_id,
 			@PathVariable long semester_id) throws SQLException, CourseAlreadyRegisteredException {
-
+		
+		Map<String,String> response = new HashMap<>();
 		boolean flag = studentImplService.registerForCourse(student_id, semester_id, course_id);
 		if (!flag) {
 			throw new CourseAlreadyRegisteredException();
 		}
 		logger.info("Course Registered Succesfully");
-		return new ResponseEntity<>("Course Registered Succesfully", HttpStatus.OK);
+		response.put("Response","Course Registered Succesfully");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	
@@ -112,6 +119,8 @@ public class StudentController {
 	@RequestMapping(value = "/removecourse/{student_id}/{semester_id}/{course_id}", method = RequestMethod.POST)
 	public ResponseEntity removecourse(@PathVariable long student_id, @PathVariable long course_id,
 			@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
+		
+		Map<String,String> response = new HashMap<>();
 
 		Set<RegisterCourse> list = studentImplService.viewRegisteredCourses(student_id, semester_id);
 		if (studentImplService.checkId(course_id, list)) {
@@ -122,7 +131,8 @@ public class StudentController {
 			}
 		}
 		logger.info("Course Deleted Succesfully");
-		return new ResponseEntity<>("Course Deleted Succesfully", HttpStatus.OK);
+		response.put("Response","Course Deleted Succesfully");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	
@@ -138,7 +148,7 @@ public class StudentController {
 	@ApiOperation(value = "View Registered Courses ", tags = "viewregistercourse")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "Course deatails not found ") })
-	@RequestMapping(value = "/viewregistercourse/{student_id}/{semester_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/viewregistercourse/{student_id}/{semester_id}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Set<RegisterCourse>> viewRegisteredCourse(@PathVariable long student_id,
 			@PathVariable long semester_id) throws SQLException, CourseDetailsNotFoundException {
 
@@ -160,14 +170,17 @@ public class StudentController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success|OK"),
 			@ApiResponse(code = 404, message = "No courses pending for payment") })
 
-	@RequestMapping(value = "/paymentlist/{student_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/paymentlist/{student_id}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity showPaymentList(@PathVariable long student_id) throws SQLException {
 
+		Map<String,String> response = new HashMap<>();
 		Set<RegisterCourse> pendingPaymentList = studentImplService.showListofPendingPayment(student_id);
 
 		if (pendingPaymentList.size() == 0) {
 			logger.info("No courses pending for payment");
-			return new ResponseEntity<>("No courses pending for payment", HttpStatus.NOT_FOUND);
+			
+			response.put("Response","No courses pending for payment");
+			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		} else {
 			return ResponseEntity.of(Optional.of(pendingPaymentList));
 
@@ -187,18 +200,21 @@ public class StudentController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Payment Successful..!"),
 			@ApiResponse(code = 409, message = "Payment failed..!") })
 
-	@RequestMapping(value = "/payfeecash/{student_id}/{course_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/payfeecash/{student_id}/{course_id}", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity payFeeCash(@PathVariable long student_id, @PathVariable long course_id,
 			@RequestBody Payment payment) throws SQLException {
 
+		Map<String,String> response = new HashMap<>();
 		boolean paymentFlag = studentImplService.payfees(course_id, payment, student_id);
 
 		if (paymentFlag) {
 			logger.info("Payment Successful..!");
-			return new ResponseEntity<>("Payment Successful..!", HttpStatus.OK);
+			response.put("Response","Payment Successful..!");
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			logger.info("Payment failed..!");
-			return new ResponseEntity<>("Payment failed..!", HttpStatus.CONFLICT);
+			response.put("Response","Payment failed..!");
+			return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 		}
 	}
 
@@ -215,18 +231,21 @@ public class StudentController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Payment Successful..!"),
 			@ApiResponse(code = 409, message = "Payment failed..!") })
 
-	@RequestMapping(value = "/payfeecard/{student_id}/{course_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/payfeecard/{student_id}/{course_id}", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity payFeeCard(@PathVariable long student_id, @PathVariable long course_id,
 			@RequestBody Payment payment) throws SQLException {
+		Map<String,String> response = new HashMap<>();
 
 		boolean paymentFlag = studentImplService.payfeesCard(course_id, payment, student_id);
 
 		if (paymentFlag) {
 			logger.info("Payment Successful..!");
-			return new ResponseEntity<>("Payment Successful..!", HttpStatus.OK);
+			response.put("Reponse","Payment Successful..!");
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			logger.info("Payment failed..!");
-			return new ResponseEntity<>("Payment failed..!", HttpStatus.CONFLICT);
+			response.put("Reponse","Payment failed..!");
+			return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 		}
 	}
 	
@@ -242,7 +261,7 @@ public class StudentController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok|Success"),
 			@ApiResponse(code = 404, message = "No Grade Card Generated") })
 
-	@RequestMapping(value = "/viewgradecard/{student_id}/{semester_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/viewgradecard/{student_id}/{semester_id}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity viewGradeCard(@PathVariable long student_id, @PathVariable long semester_id)
 			throws SQLException {
 
